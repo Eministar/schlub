@@ -1,97 +1,115 @@
-# Schlub
+# Schlub — GitHub → Discord Webhooks (improved)
 
-A better GitHub webhook for Discord.
+A better GitHub webhook for Discord: nicer embeds, more events, and optional visual v2 output.
 
-Discord's built-in GitHub webhook support (accessible by appending `/github` to a webhook URL) covers [the basics](https://github.com/discord/discord-api-docs/issues/6203#issuecomment-1608151265), but the embeds look basic, [they have no plans to add new events](https://github.com/discord/discord-api-docs/issues/6203#issuecomment-1650544855), and they lack anti-spam measures for events such as `star` and `watch`.
+Status & quick summary
 
-Schlub aims to support more events, provide richer information, and mitigate spam.
+- ✅ Project language: English (docs & README)
+- ✅ API versioning implemented: `/v1` (backwards-compatible) and `/v2` (enhanced visuals)
+- ✅ Many event generators implemented and updated (repository events, push, pull_request, issues, fork, star, watch)
+- ✅ `v2` provides a consistent nicer layout (fields, author block, timestamp, "Open on GitHub" button)
+- ✅ KV namespaces created and bound (STARS, WATCHES)
+- ✅ Local development: `npx wrangler dev` tested
+- ✅ Deployed to Cloudflare Workers (workers.dev): `https://schlub.benounnaelemin.workers.dev`
+- ✅ Custom domain prepared: `https://schlub.star-dev.xyz` (route available)
+- ⚠️ Secrets: Discord webhook URL and GitHub webhook secret are NOT stored as Cloudflare secrets yet (recommended)
 
-## Project status / Continuation
+If you just want the short usage — here's how to get started quickly.
 
-This repository was originally developed as "Schlub" and is now continued and actively maintained by a new maintainer. The goal is to keep the existing API compatible (no breaking changes for current users) while offering a modern, optional embed variant with improved visuals.
-
-In short: `/v1` stays compatible; `/v2` is the new, nicer embed variant that provides the same functionality but with improved layouts, buttons and extra metadata.
-
-- `/v1` — current, backwards-compatible API (existing behavior preserved)
-- `/v2` — new, opt-in visually enhanced embeds (same GitHub payloads, nicer output)
-
-Migration: Choose the API version by changing the URL path (e.g. `/v1/:webhookId/:webhookToken` vs `/v2/:webhookId/:webhookToken`). Both endpoints accept the same GitHub webhook payloads.
-
-## Webhook URL and domain
-
-The public endpoint domain used by this project is now:
-
-https://schlub.star-dev.xyz
-
-Webhook URL format (choose v1 or v2):
+Quick usage / webhook URL formats
 
 - v1 (backwards-compatible): `https://schlub.star-dev.xyz/v1/:webhookId/:webhookToken`
-- v2 (new visuals): `https://schlub.star-dev.xyz/v2/:webhookId/:webhookToken`
+- v2 (enhanced visuals): `https://schlub.star-dev.xyz/v2/:webhookId/:webhookToken`
 - legacy (no version prefix): `https://schlub.star-dev.xyz/:webhookId/:webhookToken` (defaults to v1)
 
-Replace `:webhookId` and `:webhookToken` with the numeric id and token part from your Discord webhook URL.
+Replace `:webhookId` and `:webhookToken` with the numeric id and token from your Discord webhook URL.
 
-## Usage
+Local development (fast check)
 
-1. Create a webhook in your Discord server.
-2. Copy the webhook URL (Discord gives you `https://discord.com/api/webhooks/:webhookId/:webhookToken`).
-3. Take the `:webhookId` and `:webhookToken` parts and use them with the Schlub domain. For example:
+- Install dependencies:
 
-- `https://schlub.star-dev.xyz/v2/123456789012345678/AbCdEfGhIjKlMnOpQrStUvWxY`
+  ```powershell
+  npm ci
+  npm install --save-dev wrangler@^4
+  ```
 
-4. Use that URL in your GitHub repository's webhook settings.
-5. Set the webhook's content type to `application/json`.
-6. If not already enabled, enable SSL verification.
-7. Done — for a new webhook you should see a "Pong!" message from the webhook.
+- Start local Worker emulation:
 
-## Feature parity
+  ```powershell
+  npx wrangler dev
+  # opens local server (default http://127.0.0.1:8787)
+  ```
 
-- [x] `repository` (created, deleted, renamed, archived, unarchived, edited, transferred, publicized, privatized)
-- [x] `fork`
-- [x] `issues`*
-- [ ] `issue_comment`
-- [x] `pull_request`*
-- [ ] `pull_request_review`
-- [ ] `pull_request_review_comment`
-- [ ] `member`
-- [ ] `public`
-- [x] `push`*
-- [ ] `commit_comment`
-- [ ] `release`
-- [x] `watch`
-- [x] `star`
-- [ ] `check_run`
-- [ ] `check_suite`
-- [ ] `discussion`
-- [ ] `discussion_comment`
+- Send a test payload (PowerShell example):
 
-\* Not all actions may be implemented.
+  ```powershell
+  $payload = @{ action='created'; repository=@{ full_name='owner/repo'; html_url='https://github.com/owner/repo'; name='repo'; description='desc' }; sender=@{ login='alice'; avatar_url='https://avatars.githubusercontent.com/u/123?v=4' } } | ConvertTo-Json -Depth 6
+  Invoke-RestMethod -Uri 'http://127.0.0.1:8787/v2/123/yourtoken' -Method POST -Body $payload -ContentType 'application/json' -Headers @{ 'X-GitHub-Event'='repository'; 'X-GitHub-Hook-ID'='1' }
+  ```
 
-## Development & tests (short)
+Deploy to Cloudflare (summary)
 
-- TypeScript typecheck: `npm run typecheck` (if configured in the project)
-- Tests: `npm run test` (if test scripts are present)
-- Local development: `wrangler dev` or `npm run dev` (depending on your setup). You can then POST to the running worker locally with header `X-GitHub-Event: repository` and a minimal JSON payload to preview embeds.
+- Create KV namespaces (if not done already):
+  ```powershell
+  npx wrangler kv:namespace create "STARS"
+  npx wrangler kv:namespace create "WATCHES"
+  ```
+  Copy the returned IDs into `wrangler.toml` under `[[kv_namespaces]]`.
 
-Example minimal `created` payload (smoke test):
+- Set your Cloudflare API token (or use `npx wrangler login`):
+  ```powershell
+  setx CF_API_TOKEN "<YOUR_TOKEN>"
+  # open a new terminal then:
+  npx wrangler whoami
+  ```
 
-```json
-{
-  "action": "created",
-  "repository": { "full_name": "owner/repo", "html_url": "https://github.com/owner/repo", "name":"repo", "description":"desc" },
-  "sender": { "login": "alice", "avatar_url":"...", "html_url":"https://github.com/alice" }
-}
-```
+- Deploy:
+  ```powershell
+  npx wrangler deploy
+  ```
+  After deploy you will get a `workers.dev` URL (example from this project):
+  `https://schlub.benounnaelemin.workers.dev`
 
-## V2 visuals and documentation
+DNS & route (Cloudflare dashboard)
 
-`/v2` is opt-in and produces visually enhanced embeds (extra fields, buttons and metadata). See `docs/v2-embed-example.md` for a concrete example and notes about buttons and fields.
+1. Add DNS record (Cloudflare → DNS):
+   - Type: CNAME
+   - Name: `schlub`
+   - Target: `@`
+   - Proxy: enabled (orange cloud)
+2. Add Worker route (Cloudflare → Workers → Routes):
+   - Route: `schlub.star-dev.xyz/*`
+   - Assign the deployed Worker (select it from the Worker dropdown)
 
-## Roadmap / Todos
+Secrets (recommended — security)
 
-- Tests for all events (Vitest) — TODO
-- Optional: dedupe / rate-limit per event using KV for spam-prone events — TODO
-- Polish `/v2` embeds: buttons, author avatars, footers, topics/labels — TODO
-- Documentation for payload formats and examples under `docs/` — TODO
+- You can store sensitive values in Cloudflare using `wrangler secret put`:
+  ```powershell
+  npx wrangler secret put DISCORD_WEBHOOK_URL
+  npx wrangler secret put GITHUB_WEBHOOK_SECRET
+  ```
+- Why: secrets keep webhook URLs and HMAC secrets out of your repository and make rotation easy.
+- Note: the Worker code reads these values from `env.DISCORD_WEBHOOK_URL` and `env.GITHUB_WEBHOOK_SECRET`.
 
-If you want, I can add a short changelog and a concrete `/v2` embed example (JSON) — I already added `CHANGELOG.md` and `docs/v2-embed-example.md` in the repository.
+Testing (live + logs)
+
+- After deploy, test the live endpoint:
+  ```powershell
+  Invoke-RestMethod -Uri 'https://schlub.star-dev.xyz/v2/123/yourtoken' -Method POST -Body $payload -ContentType 'application/json' -Headers @{ 'X-GitHub-Event'='repository' }
+  ```
+- Tail logs:
+  ```powershell
+  npx wrangler tail
+  ```
+
+What's done vs remaining
+
+- Done: v1/v2 APIs, many event generators, v2 visuals, README in English, local dev + deploy, KV namespaces, workers.dev URL
+- Remaining (recommended): store Discord webhook and GitHub webhook secret via `wrangler secret put`, add unit tests (Vitest) for v1 vs v2 outputs, optional CI for deploy and smoke tests
+
+If you want, I can:
+- add a `scripts/smoke.ps1` to automate local + live testing (I can create it now),
+- add GitHub HMAC verification code into the request handler (I can implement and test locally),
+- add minimal Vitest unit tests for repository.created (v1 & v2) — ask and I'll add them.
+
+Thanks — tell me which of the remaining items I should implement next (secrets / HMAC validation / smoke script / tests).
