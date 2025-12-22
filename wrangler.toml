@@ -1,11 +1,12 @@
 name = "schlub"
 main = "src/index.ts"
 compatibility_date = "2023-10-30"
+account_id = "907545f15fedee645ca89086a1e9d679"
 
 [[kv_namespaces]]
 binding = "STARS"
-id = "248bed5c0bd14ed2a6f48a8afde0a6fc"
+id = "9bfa1a59485d4c3c94cc2e2335a835c6"
 
 [[kv_namespaces]]
 binding ="WATCHES"
-id = "9461658be51d40db963e786f2cc176dc"
+id = "1948a856840246d5924391f06cb5e8cf"

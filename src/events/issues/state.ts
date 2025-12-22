@@ -1,6 +1,6 @@
 import { Issue, IssuesClosedEvent, IssuesEvent, IssuesOpenedEvent, IssuesReopenedEvent, Repository } from '@octokit/webhooks-types';
 import { Env } from '../..';
-import { withUserAuthor } from '../../lib/embed';
+import { withUserAuthor, buildV2Result } from '../../lib/embed';
 import { Colors } from '../../constants';
 import { GeneratorResult } from '..';
 
@@ -13,18 +13,6 @@ const STATE_COLOR_MAP: Record<ParsedIssueState, number> = {
 	reopened: Colors.OPEN,
 	completed: Colors.MERGED,
 	not_planned: Colors.DRAFT,
-}
-function getStateActionText(state: ParsedIssueState): string {
-	switch (state) {
-		case "opened":
-			return "Opened";
-		case "reopened":
-			return "Reopened";
-		case "completed":
-			return "Closed as completed";
-		case "not_planned":
-			return "Closed as not planned";
-	}
 }
 
 function getIssueText(issue: Issue, repository: Repository): string {
@@ -45,25 +33,25 @@ function getActionOnIssueText(repository: Repository, issue: Issue, state: Parse
 	}
 }
 
-function generateTitle(event: IssuesEvent, state: ParsedIssueState): string {
-	const issueWithAction = getActionOnIssueText(event.repository, event.issue, state);
-	return issueWithAction;
-}
-
-function getStateColor(state: ParsedIssueState): number {
-	return STATE_COLOR_MAP[state];
-}
-
-export default function generate(event: IssuesOpenedEvent | IssuesReopenedEvent | IssuesClosedEvent, env: Env): GeneratorResult | undefined {
+export default function generate(event: IssuesOpenedEvent | IssuesReopenedEvent | IssuesClosedEvent, env: Env, _hookId?: string, apiVersion?: string): GeneratorResult | undefined {
 	const state: ParsedIssueState = (event.issue.state_reason as IssueState) ?? (event.action === "opened" ? "opened" : "completed");
 
-	const embed = withUserAuthor({
-		title: generateTitle(event, state),
+	const embedBase: any = withUserAuthor({
+		title: getActionOnIssueText(event.repository, event.issue, state),
 		url: event.issue.html_url,
 		color: getStateColor(state),
 	}, event.sender)
 
-	if (state === "opened" && event.issue.body) embed.description = event.issue.body;
+	if (state === "opened" && event.issue.body) embedBase.description = event.issue.body;
 
-	return { embeds: [embed] };
+	if (apiVersion === 'v2') {
+		if (state === "opened") embedBase.fields = [ { name: 'Issue', value: `${event.repository.full_name}#${event.issue.number}` } ];
+		return buildV2Result(embedBase, event.issue.html_url);
+	}
+
+	return { embeds: [embedBase] };
+}
+
+function getStateColor(state: ParsedIssueState): number {
+	return STATE_COLOR_MAP[state];
 }

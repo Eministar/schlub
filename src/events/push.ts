@@ -1,6 +1,6 @@
 import { Commit, Committer, PushEvent, Repository } from '@octokit/webhooks-types';
 import { Env } from '..';
-import { withUserAuthor } from '../lib/embed';
+import { withUserAuthor, buildV2Result } from '../lib/embed';
 import { GITHUB_URL, RefType, getBranchOrTag, getRefType } from '../lib/github';
 import pluralize from '../lib/utils/pluralize';
 import { GeneratorResult } from '.';
@@ -58,18 +58,30 @@ function generateFooter(event: PushEvent): string {
 	return `${ref} • ${filesChanged}`;
 }
 
-export default function generate(event: PushEvent, env: Env): GeneratorResult | undefined {
-	const embed = withUserAuthor(
-		{
-			title: generateTitle(event),
-			url: getUrl(event),
-			description: generateCommitsString(event.commits, event.repository),
-			footer: {
-				text: generateFooter(event),
-			},
+export default function generate(event: PushEvent, env: Env, _hookId?: string, apiVersion?: string): GeneratorResult | undefined {
+	const embedBase = {
+		title: generateTitle(event),
+		url: getUrl(event),
+		description: generateCommitsString(event.commits, event.repository),
+		footer: {
+			text: generateFooter(event),
 		},
-		event.sender
-	);
+	};
+
+	if (apiVersion === 'v2') {
+		const embed = withUserAuthor({
+			...embedBase,
+			color: undefined,
+			fields: [
+				{ name: 'Commits', value: String(event.commits.length), inline: true },
+				{ name: 'Files changed', value: String(generateFilesChanged(event.commits)), inline: true }
+			]
+		}, event.sender);
+
+		return buildV2Result(embed, getUrl(event));
+	}
+
+	const embed = withUserAuthor(embedBase as any, event.sender);
 
 	return { embeds: [embed] };
 }

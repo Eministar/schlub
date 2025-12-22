@@ -1,6 +1,6 @@
-import { StarEvent, WatchEvent } from '@octokit/webhooks-types';
+import { WatchEvent } from '@octokit/webhooks-types';
 import { Env } from '..';
-import { withUserAuthor } from '../lib/embed';
+import { withUserAuthor, buildV2Result } from '../lib/embed';
 import { Colors } from '../constants';
 import pluralize from '../lib/utils/pluralize';
 import { GeneratorResult } from '.';
@@ -9,7 +9,7 @@ const WATCH_COOLDOWN = 60 * 15; // 15 minutes
 
 const WATCHED_AT_KEY = (hookId: string, repoId: number, userId: number) => `${hookId}_${repoId}_${userId}`;
 
-export default async function generate(event: WatchEvent, env: Env, hookId: string): Promise<GeneratorResult | undefined> {
+export default async function generate(event: WatchEvent, env: Env, hookId: string, apiVersion?: string): Promise<GeneratorResult | undefined> {
 	if (event.action !== 'started') return undefined;
 
 	const hasCooldown = await env.WATCHES.get(WATCHED_AT_KEY(hookId, event.repository.id, event.sender.id));
@@ -29,6 +29,10 @@ export default async function generate(event: WatchEvent, env: Env, hookId: stri
 		},
 		event.sender
 	);
+
+	if (apiVersion === 'v2') {
+		return buildV2Result(embed, `${event.repository.html_url}/watchers`);
+	}
 
 	return { embeds: [embed] };
 }

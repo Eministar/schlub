@@ -1,19 +1,21 @@
-import { RepositoryDispatchEvent, WebhookEvent, WebhookEventMap, WebhookEventName } from '@octokit/webhooks-types';
+import { RepositoryDispatchEvent, WebhookEvent } from '@octokit/webhooks-types';
 import { EmbedGenerator } from '../../events';
 import { Env } from '../..';
 
 type WebhookEventsWithAction = Exclude<Extract<WebhookEvent, { action: string }>, RepositoryDispatchEvent>;
 
-type WebhookActionToGenerator<T extends WebhookEventsWithAction> = {
+export type WebhookActionToGenerator<T extends WebhookEventsWithAction> = {
 	[K in T['action']]: EmbedGenerator<Extract<T, { action: K }>>;
 };
 
-export default function actionGenerator<T extends WebhookEventsWithAction>(
+export function actionGenerator<T extends WebhookEventsWithAction>(
 	actionEmbedGenerators: Partial<WebhookActionToGenerator<T>>
 ) {
-	return async function (event: T, env: Env, hookId: string) {
+	return async function (event: T, env: Env, hookId: string, apiVersion?: string) {
 		const generator = (actionEmbedGenerators as any)[event.action];
 		if (!generator) return undefined;
-		return generator(event, env, hookId) as ReturnType<EmbedGenerator<T>>;
+		return generator(event, env, hookId, apiVersion) as ReturnType<EmbedGenerator<T>>;
 	};
 }
+
+export default actionGenerator;

@@ -1,5 +1,5 @@
 import { WebhookEvent, WebhookEventMap } from '@octokit/webhooks-types';
-import { APIActionRowComponent, APIEmbed, APIMessageActionRowComponent, APIMessageComponent } from 'discord-api-types/v10';
+import { APIActionRowComponent, APIEmbed, APIMessageActionRowComponent } from 'discord-api-types/v10';
 import { Env } from '..';
 
 export interface GeneratorResult {
@@ -11,7 +11,8 @@ export interface GeneratorResult {
 export type EmbedGenerator<K extends WebhookEvent> = (
 	event: K,
 	env: Env,
-	hookId: string
+	hookId: string,
+	apiVersion?: string
 ) => GeneratorResult | undefined | Promise<GeneratorResult | undefined>;
 
 export type Events = {
@@ -25,6 +26,8 @@ import issues from './issues';
 import fork from './fork';
 import pkg from './package';
 import watch from './watch';
+import pull_request from './pull_request';
+import repository from './repository';
 
 export default {
 	ping,
@@ -34,4 +37,6 @@ export default {
 	fork,
 	package: pkg,
 	watch,
+	pull_request,
+	repository,
 } as Events;

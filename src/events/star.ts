@@ -9,7 +9,7 @@ const STAR_COOLDOWN = 60 * 15; // 15 minutes
 
 const STARRED_AT_KEY = (hookId: string, repoId: number, userId: number) => `${hookId}_${repoId}_${userId}`;
 
-export default async function generate(event: StarEvent, env: Env, hookId: string): Promise<GeneratorResult | undefined> {
+export default async function generate(event: StarEvent, env: Env, hookId: string, apiVersion?: string): Promise<GeneratorResult | undefined> {
 	if (event.action !== 'created') return undefined;
 
 	const hasCooldown = await env.STARS.get(STARRED_AT_KEY(hookId, event.repository.id, event.sender.id));
@@ -29,6 +29,10 @@ export default async function generate(event: StarEvent, env: Env, hookId: strin
 		},
 		event.sender
 	);
+
+	if (apiVersion === 'v2') {
+		return { embeds: [embed], components: [ { type: 1, components: [ { type: 2, style: 5, label: 'View stargazers', url: `${event.repository.html_url}/stargazers` } ] } ] };
+	}
 
 	return { embeds: [embed] };
 }
