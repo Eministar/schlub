@@ -47,8 +47,6 @@ Local development (fast check)
   Invoke-RestMethod -Uri 'http://127.0.0.1:8787/v2/123/yourtoken' -Method POST -Body $payload -ContentType 'application/json' -Headers @{ 'X-GitHub-Event'='repository'; 'X-GitHub-Hook-ID'='1' }
   ```
 
-	---
-
 ---
 
 ## 🤝 Credits & Attribution
