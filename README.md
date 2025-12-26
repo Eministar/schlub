@@ -49,11 +49,21 @@ Local development (fast check)
 
 	---
 
-  ## Credits
+---
 
-> Schlub was originally created by jackmthws
-> Original repository: https://github.com/jackmthws/schlub
+## 🤝 Credits & Attribution
 
-*This version is actively maintained, extended, and improved by Eministar.*
+**Schlub** was originally created by **jackmthws**  
+Original repository → https://github.com/jackmthws/schlub
 
-**Changes include enhanced Discord embeds (v2), additional GitHub event support, API versioning, Cloudflare Workers deployment, and overall structural improvements.**
+This project is now **actively maintained, extended, and improved by _Eministar_**.
+
+### Notable enhancements in this continuation
+- Enhanced Discord embed layouts (v2)
+- Extended GitHub event coverage
+- API versioning (`/v1`, `/v2`)
+- Cloudflare Workers deployment
+- Overall refactoring and quality improvements
+
+---
+
