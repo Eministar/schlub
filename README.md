@@ -46,3 +46,14 @@ Local development (fast check)
   $payload = @{ action='created'; repository=@{ full_name='owner/repo'; html_url='https://github.com/owner/repo'; name='repo'; description='desc' }; sender=@{ login='alice'; avatar_url='https://avatars.githubusercontent.com/u/123?v=4' } } | ConvertTo-Json -Depth 6
   Invoke-RestMethod -Uri 'http://127.0.0.1:8787/v2/123/yourtoken' -Method POST -Body $payload -ContentType 'application/json' -Headers @{ 'X-GitHub-Event'='repository'; 'X-GitHub-Hook-ID'='1' }
   ```
+
+	---
+
+  ## Credits
+
+> Schlub was originally created by jackmthws
+> Original repository: https://github.com/jackmthws/schlub
+
+*This version is actively maintained, extended, and improved by Eministar.*
+
+**Changes include enhanced Discord embeds (v2), additional GitHub event support, API versioning, Cloudflare Workers deployment, and overall structural improvements.**
