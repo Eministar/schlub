@@ -3,5 +3,41 @@ export const Colors = {
 	DRAFT: 0x6e7681,
 	OPEN: 0x238636,
 	CLOSED: 0xda3633,
-	MERGED: 0x8957e5
+	MERGED: 0x8957e5,
+	// Neue Farben für erweiterte Events
+	RELEASE: 0x1f6feb,
+	DISCUSSION: 0x539bf5,
+	WORKFLOW_SUCCESS: 0x238636,
+	WORKFLOW_FAILURE: 0xda3633,
+	WORKFLOW_PENDING: 0xd29922,
+	DEPLOYMENT: 0x1f6feb,
+	FORK: 0x768390,
+	WATCH: 0xf0883e,
+	SECURITY: 0xf85149,
+	REVIEW_APPROVED: 0x238636,
+	REVIEW_CHANGES_REQUESTED: 0xda3633,
+	REVIEW_COMMENTED: 0x768390,
+}
+
+// Emojis für v2 Embeds
+export const Emojis = {
+	STAR: '⭐',
+	FORK: '🍴',
+	PUSH: '📤',
+	PULL_REQUEST: '🔀',
+	ISSUE_OPEN: '🟢',
+	ISSUE_CLOSED: '🔴',
+	RELEASE: '🎉',
+	DISCUSSION: '💬',
+	WORKFLOW_SUCCESS: '✅',
+	WORKFLOW_FAILURE: '❌',
+	WORKFLOW_PENDING: '⏳',
+	DEPLOYMENT: '🚀',
+	WATCH: '👀',
+	REVIEW: '📝',
+	SECURITY: '🔒',
+	REPOSITORY: '📁',
+	CODE: '💻',
+	TAG: '🏷️',
+	BRANCH: '🌿',
 }

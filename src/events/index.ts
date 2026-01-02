@@ -28,6 +28,11 @@ import pkg from './package';
 import watch from './watch';
 import pull_request from './pull_request';
 import repository from './repository';
+import release from './release';
+import workflow_run from './workflow_run';
+import pull_request_review from './pull_request_review';
+import discussion from './discussion';
+import deployment_status from './deployment_status';
 
 export default {
 	ping,
@@ -39,4 +44,9 @@ export default {
 	watch,
 	pull_request,
 	repository,
+	release,
+	workflow_run,
+	pull_request_review,
+	discussion,
+	deployment_status,
 } as Events;
