@@ -192,26 +192,6 @@ export function getLandingPageHTML(): string {
 			filter: drop-shadow(0 0 30px var(--glow-purple));
 		}
 
-		.logo-ring {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			width: 120px;
-			height: 120px;
-			border: 2px solid transparent;
-			border-top-color: var(--accent-purple);
-			border-radius: 50%;
-			animation: rotate 3s linear infinite;
-			opacity: 0.5;
-		}
-
-		.logo-ring-2 {
-			width: 140px;
-			height: 140px;
-			animation: rotate 4s linear infinite reverse;
-			border-top-color: var(--accent-pink);
-		}
 
 		h1 {
 			font-size: 4rem;
@@ -692,8 +672,6 @@ export function getLandingPageHTML(): string {
 		<header>
 			<div class="logo-container">
 				<div class="logo">🔗</div>
-				<div class="logo-ring"></div>
-				<div class="logo-ring logo-ring-2"></div>
 			</div>
 			<h1>Schlub</h1>
 			<p class="tagline">Beautiful <span>GitHub → Discord</span> webhook integration</p>
