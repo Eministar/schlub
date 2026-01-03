@@ -438,10 +438,10 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 				<a href="https://github.com/Eministar/schlub" target="_blank">GitHub</a>
 				<a href="https://github.com/Eministar/schlub/tree/main/docs" target="_blank">Documentation</a>
 				<a href="https://discord.gg/JRqg6ebaas" target="_blank">Discord Support</a>
-				<a href="https://github.com/starlightcms/schlub/issues" target="_blank">Report Issue</a>
+				<a href="https://discord.gg/JRqg6ebaas" target="_blank">Report Issue</a>
 			</div>
 			<p>
-				Made with ❤️ by <a href="https://star-dev.xyz/" target="_blank">Starlight</a> •
+				Made with ❤️ by <a href="https://star-dev.xyz/" target="_blank">Eministar</a> •
 				<a href="https://github.com/Eministar/schlub?tab=License-1-ov-file" target="_blank">GNU License</a>
 			</p>
 		</footer>
