@@ -258,3 +258,103 @@ Triggered on repository lifecycle changes.
 - Visibility (public/private)
 - Description
 
+---
+
+## Issue Comment Events
+
+Triggered when comments are added to issues or pull requests.
+
+### Supported Actions
+- `created` — New comment posted
+- `edited` — Comment edited
+
+### v2 Features
+- 💬 Comment type detection (Command, Approval, Question, etc.)
+- Smart emoji based on comment content
+- Issue/PR context with link
+- Author information
+- Labels display
+- Comment reactions (👍 👎 😄 ❤️ 🚀)
+- Timestamp
+- Quick access buttons: View Comment, View Issue/PR
+
+### Comment Type Detection
+| Pattern | Type | Emoji |
+|---------|------|-------|
+| Starts with `/` | Command | 🤖 |
+| Contains "LGTM" | Approval | ✅ |
+| Contains "WIP" | WIP Note | 🚧 |
+| Contains "blocked" | Blocker | 🚫 |
+| Contains "?" | Question | ❓ |
+| Contains "fix"/"bug" | Bug Related | 🐛 |
+
+---
+
+## Create Events
+
+Triggered when branches or tags are created.
+
+### Ref Types
+- `branch` — New branch created
+- `tag` — New tag created
+
+### v2 Features
+- 🌿 Branch emoji / 🏷️ Tag emoji
+- Ref name and type
+- Default branch info
+- Hint for potential releases (tags)
+- Quick access buttons: View Branch/Tag, View Repository, Create PR
+
+---
+
+## Delete Events
+
+Triggered when branches or tags are deleted.
+
+### Ref Types
+- `branch` — Branch deleted
+- `tag` — Tag deleted
+
+### v2 Features
+- 🗑️ Delete indicator
+- Ref name and type
+- Deletion status
+- Quick access buttons: View Repository, All Branches/Tags
+
+---
+
+## Commit Comment Events
+
+Triggered when comments are added directly to commits.
+
+### Supported Actions
+- `created` — New comment on commit
+
+### v2 Features
+- 💻 Code emoji
+- Commit SHA with link
+- File path (if commenting on specific file)
+- Line number (if applicable)
+- Timestamp
+- Reactions
+- Quick access buttons: View Comment, View Commit
+
+---
+
+## Member Events
+
+Triggered when collaborators are added, removed, or updated.
+
+### Supported Actions
+- `added` — Collaborator added to repository
+- `removed` — Collaborator removed from repository
+- `edited` — Collaborator permissions changed
+
+### v2 Features
+- ➕/➖ Action indicator
+- Member profile with avatar
+- Permission level with emoji (👑 Admin, 🛡️ Maintain, ✏️ Write, 👀 Read)
+- Permission change history
+- Actor information
+- Quick access buttons: View Profile, Collaborators
+

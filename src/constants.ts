@@ -17,6 +17,14 @@ export const Colors = {
 	REVIEW_APPROVED: 0x238636,
 	REVIEW_CHANGES_REQUESTED: 0xda3633,
 	REVIEW_COMMENTED: 0x768390,
+	// Neue Farben für Kommentare und Member
+	COMMENT: 0x539bf5,
+	MEMBER_ADDED: 0x238636,
+	MEMBER_REMOVED: 0xda3633,
+	BRANCH_CREATED: 0x238636,
+	BRANCH_DELETED: 0xda3633,
+	TAG_CREATED: 0x1f6feb,
+	TAG_DELETED: 0xda3633,
 }
 
 // Emojis für v2 Embeds
@@ -40,4 +48,12 @@ export const Emojis = {
 	CODE: '💻',
 	TAG: '🏷️',
 	BRANCH: '🌿',
+	// Neue Emojis
+	COMMENT: '💬',
+	MEMBER: '👥',
+	MEMBER_ADDED: '➕',
+	MEMBER_REMOVED: '➖',
+	CREATE: '✨',
+	DELETE: '🗑️',
+	COMMIT: '📝',
 }

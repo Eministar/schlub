@@ -33,6 +33,11 @@ import workflow_run from './workflow_run';
 import pull_request_review from './pull_request_review';
 import discussion from './discussion';
 import deployment_status from './deployment_status';
+import issue_comment from './issue_comment';
+import create from './create';
+import deleteEvent from './delete';
+import commit_comment from './commit_comment';
+import member from './member';
 
 export default {
 	ping,
@@ -49,4 +54,9 @@ export default {
 	pull_request_review,
 	discussion,
 	deployment_status,
+	issue_comment,
+	create,
+	delete: deleteEvent,
+	commit_comment,
+	member,
 } as Events;
