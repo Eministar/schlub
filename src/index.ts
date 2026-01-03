@@ -2,6 +2,7 @@ import type { WebhookEventMap, WebhookEventName } from '@octokit/webhooks-types'
 import events, { EmbedGenerator } from './events';
 import { RESTPostAPIWebhookWithTokenJSONBody } from 'discord-api-types/v10';
 import { DISCORD_WEBHOOK_URL } from './lib/discord';
+import { getLandingPageHTML } from './lib/landing';
 
 export interface Env {
 	STARS: KVNamespace;
@@ -17,6 +18,17 @@ export default {
 
 		// Get the webhook ID and token from the URL
 		const path = requestUrl.pathname.split('/').filter(Boolean);
+
+		// Show landing page for root path or common info paths
+		if (path.length === 0 || (path.length === 1 && ['info', 'help', 'about'].includes(path[0]))) {
+			return new Response(getLandingPageHTML(), {
+				status: 200,
+				headers: {
+					'Content-Type': 'text/html; charset=utf-8',
+					'Cache-Control': 'public, max-age=3600',
+				},
+			});
+		}
 
 		// support optional version prefix: /v1/:id/:token or /v2/:id/:token
 		if (path.length === 3 && (path[0] === 'v1' || path[0] === 'v2')) {

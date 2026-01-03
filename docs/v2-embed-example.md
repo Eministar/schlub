@@ -240,6 +240,105 @@ When a force push is detected, an additional warning field is shown:
 
 ---
 
+## Discussion Event
+
+### New Discussion
+```json
+{
+  "embeds": [{
+    "title": "💬 New discussion: How to implement feature X?",
+    "url": "https://github.com/owner/repo/discussions/42",
+    "description": "I'm trying to implement feature X but I'm not sure about the best approach. Should I use method A or method B?",
+    "color": 5545973,
+    "author": {
+      "name": "alice",
+      "icon_url": "https://avatars.githubusercontent.com/u/123?v=4",
+      "url": "https://github.com/alice"
+    },
+    "thumbnail": {
+      "url": "https://avatars.githubusercontent.com/u/123?v=4"
+    },
+    "fields": [
+      { "name": "Category", "value": "❓ Q&A", "inline": true },
+      { "name": "Status", "value": "🟢 Open", "inline": true },
+      { "name": "Comments", "value": "💬 3", "inline": true },
+      { "name": "Labels", "value": "`help wanted`, `question`", "inline": true },
+      { "name": "Reactions", "value": "👍 5 🚀 2 👀 3", "inline": true },
+      { "name": "Upvotes", "value": "⬆️ 12", "inline": true },
+      { "name": "Created", "value": "2 hours ago", "inline": true }
+    ],
+    "footer": { "text": "owner/repo • Q&A" },
+    "timestamp": "2025-01-03T12:00:00.000Z"
+  }],
+  "components": [{
+    "type": 1,
+    "components": [
+      { "type": 2, "style": 5, "label": "View Discussion", "url": "...", "emoji": { "name": "💬" } },
+      { "type": 2, "style": 5, "label": "Q&A", "url": "...", "emoji": { "name": "❓" } }
+    ]
+  }]
+}
+```
+
+### Answered Discussion
+```json
+{
+  "embeds": [{
+    "title": "💬 Answered discussion: How to implement feature X?",
+    "color": 2325810,
+    "fields": [
+      { "name": "Category", "value": "❓ Q&A", "inline": true },
+      { "name": "Status", "value": "✅ Answered", "inline": true },
+      { "name": "Comments", "value": "💬 8", "inline": true },
+      { "name": "Reactions", "value": "👍 12 🎉 5 ❤️ 3", "inline": true },
+      { "name": "Answered", "value": "5 minutes ago", "inline": true }
+    ],
+    "footer": { "text": "owner/repo • Q&A" }
+  }],
+  "components": [{
+    "type": 1,
+    "components": [
+      { "type": 2, "style": 5, "label": "View Discussion", "url": "...", "emoji": { "name": "💬" } },
+      { "type": 2, "style": 5, "label": "View Answer", "url": "...", "emoji": { "name": "✅" } }
+    ]
+  }]
+}
+```
+
+### Pinned Discussion
+```json
+{
+  "embeds": [{
+    "title": "💬 Pinned discussion: Important Announcement",
+    "color": 14922561,
+    "fields": [
+      { "name": "Category", "value": "📢 Announcements", "inline": true },
+      { "name": "Status", "value": "📌 Pinned", "inline": true },
+      { "name": "Comments", "value": "💬 25", "inline": true }
+    ],
+    "footer": { "text": "owner/repo • Announcements" }
+  }]
+}
+```
+
+### Locked Discussion
+```json
+{
+  "embeds": [{
+    "title": "💬 Locked discussion: Resolved: Bug in v2.0",
+    "color": 14292292,
+    "fields": [
+      { "name": "Category", "value": "🆘 Help", "inline": true },
+      { "name": "Status", "value": "🔒 Locked", "inline": true },
+      { "name": "Lock Reason", "value": "resolved", "inline": true }
+    ],
+    "footer": { "text": "owner/repo • Help" }
+  }]
+}
+```
+
+---
+
 ## Deployment Status Event
 
 ```json

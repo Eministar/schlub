@@ -142,15 +142,46 @@ Triggered on repository discussions.
 ### Supported Actions
 - `created` — New discussion
 - `answered` — Discussion marked as answered
-- `closed` — Discussion closed
-- `reopened` — Discussion reopened
+- `pinned` — Discussion pinned
+- `unpinned` — Discussion unpinned
+- `locked` — Discussion locked
+- `unlocked` — Discussion unlocked
+- `edited` — Discussion edited
+- `labeled` — Label added
+- `category_changed` — Category changed
 
 ### v2 Features
 - 💬 Discussion emoji in title
-- Category
-- Status (Open, Answered, Closed)
-- Comment count
-- Quick access buttons: View Discussion, View Answer
+- Category with emoji (📢 Announcements, 💡 Ideas, ❓ Q&A, etc.)
+- Status badge (🟢 Open, ✅ Answered, 🔒 Locked, 📌 Pinned)
+- Comment count with emoji
+- Labels display
+- Reactions counter (👍 👎 😄 🎉 😕 ❤️ 🚀 👀)
+- Upvotes display
+- Lock reason (when locked)
+- Created/Answered timestamps
+- Author thumbnail
+- Quick access buttons: View Discussion, View Answer, Category
+
+### Category Emojis
+| Category | Emoji |
+|----------|-------|
+| Announcements | 📢 |
+| General | 💬 |
+| Ideas | 💡 |
+| Polls | 📊 |
+| Q&A | ❓ |
+| Show and Tell | 🎭 |
+| Help | 🆘 |
+| Feedback | 📝 |
+
+### Color Codes
+| State | Color |
+|-------|-------|
+| Open | Blue (#539bf5) |
+| Answered | Green (#238636) |
+| Locked | Red (#da3633) |
+| Pinned | Gold (#e3b341) |
 
 ---
 

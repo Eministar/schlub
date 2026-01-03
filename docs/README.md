@@ -2,6 +2,8 @@
 
 Welcome to the **Schlub** documentation — your enhanced GitHub → Discord webhook integration.
 
+> 🌐 **Live Demo:** Visit [schlub.star-dev.xyz](https://schlub.star-dev.xyz) for an interactive landing page with quick setup instructions.
+
 ## Table of Contents
 
 - [Quick Start](#quick-start)
@@ -11,6 +13,24 @@ Welcome to the **Schlub** documentation — your enhanced GitHub → Discord web
 - [Configuration](#configuration)
 - [Examples](#examples)
 - [Troubleshooting](#troubleshooting)
+
+---
+
+## Overview
+
+**Schlub** transforms GitHub webhook events into beautiful Discord notifications. Instead of raw JSON or plain text, you get:
+
+- 🎨 **Rich Embeds** — Color-coded by event type and status
+- 🔘 **Interactive Buttons** — Quick links to PRs, commits, releases
+- 📊 **Smart Fields** — Key information at a glance
+- ⚡ **Instant Delivery** — Powered by Cloudflare Workers
+
+### Links
+
+- 🌐 [Landing Page](https://schlub.star-dev.xyz)
+- 📦 [GitHub Repository](https://github.com/starlightcms/schlub)
+- 💬 [Discord Support](https://discord.gg/xbWHcDsZEv)
+- 🐛 [Report Issues](https://github.com/starlightcms/schlub/issues)
 
 ---
 
