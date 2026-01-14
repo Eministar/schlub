@@ -2,7 +2,7 @@
 
 A better GitHub webhook for Discord: beautiful embeds, extensive event coverage, and powerful v2 visual output.
 
-[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/your-repo/schlub)
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/eministar/schlub)
 
 ## ✨ Features
 
