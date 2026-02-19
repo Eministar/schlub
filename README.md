@@ -126,4 +126,4 @@ This project is now **actively maintained and enhanced by [Eministar](https://gi
 
 ## 📄 License
 
-[MIT License](LICENSE) — Feel free to use, modify, and distribute.
+[GNU License](LICENSE) — Feel free to use, modify, and distribute.
