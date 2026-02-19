@@ -1432,11 +1432,81 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 
 			function renderInlineMarkdown(input) {
 				let html = escapeHtml(input || '');
-				html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|#)\)/g, '<a href=\"$2\" target=\"_blank\" rel=\"noopener noreferrer\">$1</a>');
 				const tick = String.fromCharCode(96);
-				const codePattern = new RegExp(tick + '([^' + tick + ']+)' + tick, 'g');
-				html = html.replace(codePattern, '<code>$1</code>');
-				html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+
+				const renderLinks = (text) => {
+					let cursor = 0;
+					let output = '';
+
+					while (cursor < text.length) {
+						const start = text.indexOf('[', cursor);
+						if (start === -1) break;
+
+						const mid = text.indexOf('](', start + 1);
+						if (mid === -1) break;
+
+						const end = text.indexOf(')', mid + 2);
+						if (end === -1) break;
+
+						const label = text.slice(start + 1, mid);
+						const url = text.slice(mid + 2, end);
+						const validUrl = url === '#' || url.startsWith('http://') || url.startsWith('https://');
+
+						output += text.slice(cursor, start);
+						if (validUrl) {
+							output += '<a href=\"' + url + '\" target=\"_blank\" rel=\"noopener noreferrer\">' + label + '</a>';
+						} else {
+							output += text.slice(start, end + 1);
+						}
+
+						cursor = end + 1;
+					}
+
+					output += text.slice(cursor);
+					return output;
+				};
+
+				const renderCode = (text) => {
+					let cursor = 0;
+					let output = '';
+
+					while (cursor < text.length) {
+						const start = text.indexOf(tick, cursor);
+						if (start === -1) break;
+						const end = text.indexOf(tick, start + 1);
+						if (end === -1) break;
+
+						output += text.slice(cursor, start);
+						output += '<code>' + text.slice(start + 1, end) + '</code>';
+						cursor = end + 1;
+					}
+
+					output += text.slice(cursor);
+					return output;
+				};
+
+				const renderBold = (text) => {
+					let cursor = 0;
+					let output = '';
+
+					while (cursor < text.length) {
+						const start = text.indexOf('**', cursor);
+						if (start === -1) break;
+						const end = text.indexOf('**', start + 2);
+						if (end === -1) break;
+
+						output += text.slice(cursor, start);
+						output += '<strong>' + text.slice(start + 2, end) + '</strong>';
+						cursor = end + 2;
+					}
+
+					output += text.slice(cursor);
+					return output;
+				};
+
+				html = renderLinks(html);
+				html = renderCode(html);
+				html = renderBold(html);
 				return html;
 			}
 
