@@ -3,6 +3,7 @@ import events, { EmbedGenerator } from './events';
 import { RESTPostAPIWebhookWithTokenJSONBody } from 'discord-api-types/v10';
 import { DISCORD_WEBHOOK_URL } from './lib/discord';
 import { getLandingPageHTML } from './lib/landing';
+import { applyV2Styles, readV2Styles } from './lib/style';
 
 export interface Env {
 	STARS: KVNamespace;
@@ -18,6 +19,37 @@ export default {
 
 		// Get the webhook ID and token from the URL
 		const path = requestUrl.pathname.split('/').filter(Boolean);
+		if (path.length === 1 && path[0] === 'robots.txt') {
+			return new Response(
+				`User-agent: *
+Allow: /
+
+Sitemap: ${requestUrl.origin}/sitemap.xml`,
+				{
+					status: 200,
+					headers: {
+						'Content-Type': 'text/plain; charset=utf-8',
+						'Cache-Control': 'public, max-age=3600',
+					},
+				}
+			);
+		}
+
+		if (path.length === 1 && path[0] === 'sitemap.xml') {
+			const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<url>
+		<loc>${requestUrl.origin}/</loc>
+	</url>
+</urlset>`;
+			return new Response(sitemap, {
+				status: 200,
+				headers: {
+					'Content-Type': 'application/xml; charset=utf-8',
+					'Cache-Control': 'public, max-age=3600',
+				},
+			});
+		}
 
 		// Show landing page for root path or common info paths
 		if (path.length === 0 || (path.length === 1 && ['info', 'help', 'about'].includes(path[0]))) {
@@ -64,11 +96,12 @@ export default {
 		const result = await generate(eventPayload, env, hookId, apiVersion);
 
 		if (!result) return new Response('No result generated', { status: 200 });
+		const styledResult = applyV2Styles(result, eventName, readV2Styles(requestUrl.searchParams), apiVersion);
 
 		const body: RESTPostAPIWebhookWithTokenJSONBody = {
-			content: result?.content,
-			embeds: result?.embeds,
-			components: result?.components,
+			content: styledResult?.content,
+			embeds: styledResult?.embeds,
+			components: styledResult?.components,
 		};
 
 		const webhookUrl = DISCORD_WEBHOOK_URL(webhook.id, webhook.token, webhook.threadId, true);

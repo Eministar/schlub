@@ -9,6 +9,8 @@ export function getLandingPageHTML(): string {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Schlub — GitHub → Discord Webhooks</title>
 	<meta name="description" content="Enhanced GitHub to Discord webhook integration with beautiful embeds, buttons, and more.">
+	<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+	<link rel="canonical" href="https://schlub.star-dev.xyz/">
 	<meta name="theme-color" content="#5865F2">
 
 	<!-- Open Graph -->
@@ -16,11 +18,40 @@ export function getLandingPageHTML(): string {
 	<meta property="og:description" content="Enhanced GitHub to Discord webhook integration with beautiful embeds, buttons, and more.">
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="https://schlub.star-dev.xyz">
+	<meta property="og:site_name" content="Schlub">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:image" content="https://schlub.star-dev.xyz/og.png">
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Schlub — GitHub → Discord Webhooks">
+	<meta name="twitter:description" content="Enhanced GitHub to Discord webhook integration with beautiful embeds, buttons, and more.">
+	<meta name="twitter:image" content="https://schlub.star-dev.xyz/og.png">
 
 	<!-- Google Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "SoftwareApplication",
+		"name": "Schlub",
+		"applicationCategory": "DeveloperApplication",
+		"operatingSystem": "Web",
+		"url": "https://schlub.star-dev.xyz/",
+		"description": "Enhanced GitHub to Discord webhook integration with beautiful embeds, buttons, and more.",
+		"offers": {
+			"@type": "Offer",
+			"price": "0",
+			"priceCurrency": "USD"
+		},
+		"creator": {
+			"@type": "Person",
+			"name": "Eministar"
+		}
+	}
+	</script>
 
 	<style>
 		* {
@@ -607,6 +638,137 @@ export function getLandingPageHTML(): string {
 			animation: pulse-glow 1.5s ease-in-out infinite;
 		}
 
+		.builder-layout {
+			display: grid;
+			grid-template-columns: 1.2fr 0.8fr;
+			gap: 1.25rem;
+		}
+
+		.builder-controls {
+			background: var(--bg-primary);
+			border: 1px solid var(--border-color);
+			border-radius: 16px;
+			padding: 1.25rem;
+		}
+
+		.builder-preview {
+			background: var(--bg-primary);
+			border: 1px solid var(--border-color);
+			border-radius: 16px;
+			padding: 1.25rem;
+		}
+
+		.builder-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 0.75rem;
+			margin-bottom: 1rem;
+		}
+
+		.builder-field {
+			display: flex;
+			flex-direction: column;
+			gap: 0.35rem;
+		}
+
+		.builder-field label {
+			font-size: 0.8rem;
+			color: var(--text-secondary);
+		}
+
+		.builder-field input, .builder-field select, .builder-field textarea {
+			width: 100%;
+			background: var(--bg-tertiary);
+			border: 1px solid var(--border-color);
+			color: var(--text-primary);
+			border-radius: 10px;
+			padding: 0.65rem 0.75rem;
+			font-size: 0.9rem;
+		}
+
+		.builder-field textarea {
+			min-height: 88px;
+			resize: vertical;
+			font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+		}
+
+		.builder-actions {
+			display: flex;
+			gap: 0.75rem;
+			flex-wrap: wrap;
+			margin-top: 0.75rem;
+		}
+
+		.builder-actions button {
+			background: linear-gradient(135deg, var(--accent-discord), #4752c4);
+			border: 0;
+			color: #fff;
+			border-radius: 10px;
+			padding: 0.65rem 1rem;
+			font-weight: 600;
+			cursor: pointer;
+		}
+
+		.builder-actions button.secondary {
+			background: var(--bg-tertiary);
+			border: 1px solid var(--border-color);
+		}
+
+		.preview-card {
+			background: #1f2937;
+			border: 1px solid var(--border-color);
+			border-left: 5px solid #5865f2;
+			border-radius: 12px;
+			padding: 1rem;
+		}
+
+		.preview-title {
+			font-weight: 700;
+			margin-bottom: 0.5rem;
+		}
+
+		.preview-description {
+			color: #d1d5db;
+			font-size: 0.9rem;
+			margin-bottom: 0.75rem;
+		}
+
+		.preview-field {
+			font-size: 0.85rem;
+			color: #d1d5db;
+			margin-bottom: 0.35rem;
+		}
+
+		.builder-table {
+			margin-top: 1rem;
+			max-height: 240px;
+			overflow-y: auto;
+			border: 1px solid var(--border-color);
+			border-radius: 12px;
+		}
+
+		.builder-table table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		.builder-table th, .builder-table td {
+			padding: 0.45rem 0.6rem;
+			font-size: 0.8rem;
+			text-align: left;
+			border-bottom: 1px solid var(--border-color);
+		}
+
+		.builder-table input {
+			width: 100%;
+			background: var(--bg-tertiary);
+			border: 1px solid var(--border-color);
+			color: var(--text-primary);
+			border-radius: 8px;
+			padding: 0.35rem 0.45rem;
+			font-size: 0.78rem;
+		}
+
 		/* Scrollbar Styling */
 		::-webkit-scrollbar {
 			width: 8px;
@@ -654,6 +816,10 @@ export function getLandingPageHTML(): string {
 
 			.section {
 				padding: 1.5rem;
+			}
+
+			.builder-layout {
+				grid-template-columns: 1fr;
 			}
 
 			.footer-links {
@@ -829,6 +995,76 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 			</table>
 		</div>
 
+		<div class="section" id="embed-styler">
+			<h2>🎛️ v2 Embed Styler Builder</h2>
+			<p style="color: var(--text-secondary); margin-bottom: 1rem;">
+				Design color and emoji per GitHub event, preview the result, then copy one long v2 URL with all style attributes.
+			</p>
+			<div class="builder-layout">
+				<div class="builder-controls">
+					<div class="builder-grid">
+						<div class="builder-field" style="grid-column: 1 / span 2;">
+							<label for="builderWebhookInput">Discord Webhook URL or Schlub URL</label>
+							<input id="builderWebhookInput" type="text" placeholder="https://discord.com/api/webhooks/{id}/{token}">
+						</div>
+						<div class="builder-field">
+							<label for="builderGlobalEmoji">Global Emoji (all events)</label>
+							<input id="builderGlobalEmoji" type="text" placeholder="🚀">
+						</div>
+						<div class="builder-field">
+							<label for="builderGlobalColor">Global Color (hex)</label>
+							<input id="builderGlobalColor" type="text" placeholder="#5865F2">
+						</div>
+						<div class="builder-field">
+							<label for="builderPresetSelect">Preset</label>
+							<select id="builderPresetSelect"></select>
+						</div>
+						<div class="builder-field">
+							<label for="builderEventSelect">Preview Event</label>
+							<select id="builderEventSelect"></select>
+						</div>
+						<div class="builder-field">
+							<label for="builderEventEmoji">Event Emoji</label>
+							<input id="builderEventEmoji" type="text" placeholder="🔀">
+						</div>
+						<div class="builder-field">
+							<label for="builderEventColor">Event Color</label>
+							<input id="builderEventColor" type="text" placeholder="#8957E5">
+						</div>
+						<div class="builder-field" style="grid-column: 1 / span 2;">
+							<label for="builderOutputUrl">Generated v2 URL</label>
+							<textarea id="builderOutputUrl" readonly></textarea>
+						</div>
+					</div>
+					<div class="builder-actions">
+						<button id="builderApplyPreset" class="secondary" type="button">Apply Preset</button>
+						<button id="builderParseWebhook" type="button">Parse Webhook</button>
+						<button id="builderCopyUrl" type="button">Copy URL</button>
+						<button id="builderReset" class="secondary" type="button">Reset Styles</button>
+					</div>
+					<div class="builder-table">
+						<table>
+							<thead>
+								<tr>
+									<th>Event</th>
+									<th>Emoji</th>
+									<th>Color</th>
+								</tr>
+							</thead>
+							<tbody id="builderEventTableBody"></tbody>
+						</table>
+					</div>
+				</div>
+				<div class="builder-preview">
+					<div id="builderPreviewCard" class="preview-card">
+						<div id="builderPreviewTitle" class="preview-title"></div>
+						<div id="builderPreviewDescription" class="preview-description"></div>
+						<div id="builderPreviewFields"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<footer>
 			<div class="footer-links">
 				<a href="https://github.com/Eministar/schlub" target="_blank">
@@ -852,7 +1088,390 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 			</p>
 		</footer>
 	</div>
+	<script>
+		(() => {
+			const events = [
+				{ key: 'push', label: 'Push', emoji: '📤', color: '#238636', title: 'Pushed 3 commits to owner/repo', description: '[\`a1b2c3d\`](#) \`fix ci pipeline\` — dev-user' },
+				{ key: 'pull_request', label: 'Pull Request', emoji: '🔀', color: '#238636', title: 'Opened PR #42: Add embed styler', description: 'New pull request with preview controls' },
+				{ key: 'issues', label: 'Issues', emoji: '🟢', color: '#238636', title: 'Opened issue owner/repo#128', description: 'Issue report with context and labels' },
+				{ key: 'issue_comment', label: 'Issue Comment', emoji: '💬', color: '#539BF5', title: 'New comment on PR #42', description: 'Looks good, but we should improve error handling.' },
+				{ key: 'commit_comment', label: 'Commit Comment', emoji: '💻', color: '#539BF5', title: 'New comment on commit 1a2b3c4', description: 'Comment on a specific commit line.' },
+				{ key: 'release', label: 'Release', emoji: '🎉', color: '#1F6FEB', title: 'Published release v2.0.0', description: 'Major update with new builder and SEO.' },
+				{ key: 'workflow_run', label: 'Workflow Run', emoji: '✅', color: '#238636', title: 'Workflow \"CI\" Success', description: 'Build and tests completed successfully.' },
+				{ key: 'pull_request_review', label: 'PR Review', emoji: '📝', color: '#238636', title: 'Review Approved on PR #42', description: 'Review includes notes and follow-ups.' },
+				{ key: 'discussion', label: 'Discussion', emoji: '💬', color: '#539BF5', title: 'New discussion: Embed Styling Ideas', description: 'Collecting ideas for custom theming.' },
+				{ key: 'deployment_status', label: 'Deployment', emoji: '🚀', color: '#1F6FEB', title: 'Deployment to production', description: 'State: \`Success\`' },
+				{ key: 'repository', label: 'Repository', emoji: '📁', color: '#1F6FEB', title: 'Repository updated', description: 'Visibility or metadata changed.' },
+				{ key: 'package', label: 'Package', emoji: '📦', color: '#1F6FEB', title: 'Package published', description: 'New package revision is available.' },
+				{ key: 'create', label: 'Create', emoji: '✨', color: '#238636', title: 'Created branch feature/embed-styler', description: 'A new branch or tag was created.' },
+				{ key: 'delete', label: 'Delete', emoji: '🗑️', color: '#DA3633', title: 'Deleted branch legacy-v1', description: 'Cleanup action in repository refs.' },
+				{ key: 'member', label: 'Member', emoji: '👥', color: '#238636', title: 'Member added to repository', description: 'New collaborator permissions granted.' },
+				{ key: 'star', label: 'Star', emoji: '⭐', color: '#E3B341', title: 'Repository starred', description: 'Someone starred this project.' },
+				{ key: 'watch', label: 'Watch', emoji: '👀', color: '#F0883E', title: 'Repository watched', description: 'Someone subscribed to notifications.' },
+				{ key: 'fork', label: 'Fork', emoji: '🍴', color: '#768390', title: 'Repository forked', description: 'A new fork was created.' },
+				{ key: 'ping', label: 'Ping', emoji: '🔔', color: '#5865F2', title: 'Webhook ping', description: 'Webhook handshake succeeded.' },
+			];
+
+			const byId = (id) => document.getElementById(id);
+			const STORAGE_KEY = 'schlub_v2_builder_state';
+			const webhookInput = byId('builderWebhookInput');
+			const globalEmojiInput = byId('builderGlobalEmoji');
+			const globalColorInput = byId('builderGlobalColor');
+			const presetSelect = byId('builderPresetSelect');
+			const eventSelect = byId('builderEventSelect');
+			const eventEmojiInput = byId('builderEventEmoji');
+			const eventColorInput = byId('builderEventColor');
+			const outputUrl = byId('builderOutputUrl');
+			const eventTableBody = byId('builderEventTableBody');
+			const previewCard = byId('builderPreviewCard');
+			const previewTitle = byId('builderPreviewTitle');
+			const previewDescription = byId('builderPreviewDescription');
+			const previewFields = byId('builderPreviewFields');
+
+			const eventStyles = {};
+			for (const event of events) {
+				eventStyles[event.key] = { emoji: '', color: '' };
+			}
+
+			const presets = {
+				custom: { label: 'Custom', globalEmoji: '', globalColor: '', events: {} },
+				github_classic: {
+					label: 'GitHub Classic',
+					globalEmoji: '',
+					globalColor: '#5865F2',
+					events: {
+						pull_request: { emoji: '🔀', color: '#238636' },
+						issues: { emoji: '🟢', color: '#238636' },
+						workflow_run: { emoji: '✅', color: '#238636' },
+						deployment_status: { emoji: '🚀', color: '#1F6FEB' },
+						delete: { emoji: '🗑️', color: '#DA3633' },
+					},
+				},
+				neon: {
+					label: 'Neon',
+					globalEmoji: '⚡',
+					globalColor: '#00E5FF',
+					events: {
+						push: { emoji: '⚡', color: '#00E5FF' },
+						pull_request: { emoji: '🧪', color: '#39FF14' },
+						issues: { emoji: '🎯', color: '#FF00A8' },
+						workflow_run: { emoji: '🛰️', color: '#8B5CF6' },
+						release: { emoji: '🌈', color: '#F59E0B' },
+					},
+				},
+				minimal: {
+					label: 'Minimal',
+					globalEmoji: '',
+					globalColor: '#9CA3AF',
+					events: {
+						push: { emoji: '·', color: '#6B7280' },
+						pull_request: { emoji: '·', color: '#6B7280' },
+						issues: { emoji: '·', color: '#6B7280' },
+						release: { emoji: '·', color: '#6B7280' },
+					},
+				},
+			};
+
+			let webhookId = '';
+			let webhookToken = '';
+
+			function saveState() {
+				try {
+					const data = {
+						webhookInput: webhookInput.value,
+						webhookId: webhookId,
+						webhookToken: webhookToken,
+						globalEmoji: globalEmojiInput.value,
+						globalColor: globalColorInput.value,
+						selectedPreset: presetSelect.value,
+						selectedEvent: eventSelect.value,
+						eventStyles: eventStyles,
+					};
+					localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+				} catch (error) {}
+			}
+
+			function loadState() {
+				try {
+					const raw = localStorage.getItem(STORAGE_KEY);
+					if (!raw) return;
+					const data = JSON.parse(raw);
+					if (!data || typeof data !== 'object') return;
+
+					if (typeof data.webhookInput === 'string') webhookInput.value = data.webhookInput;
+					if (typeof data.webhookId === 'string') webhookId = data.webhookId;
+					if (typeof data.webhookToken === 'string') webhookToken = data.webhookToken;
+					if (typeof data.globalEmoji === 'string') globalEmojiInput.value = data.globalEmoji;
+					if (typeof data.globalColor === 'string') globalColorInput.value = data.globalColor;
+					if (typeof data.selectedPreset === 'string' && presets[data.selectedPreset]) presetSelect.value = data.selectedPreset;
+
+					if (data.eventStyles && typeof data.eventStyles === 'object') {
+						for (const event of events) {
+							const saved = data.eventStyles[event.key];
+							if (!saved || typeof saved !== 'object') continue;
+							eventStyles[event.key].emoji = typeof saved.emoji === 'string' ? saved.emoji : '';
+							eventStyles[event.key].color = typeof saved.color === 'string' ? saved.color : '';
+						}
+					}
+
+					if (typeof data.selectedEvent === 'string' && eventStyles[data.selectedEvent]) {
+						eventSelect.value = data.selectedEvent;
+					}
+				} catch (error) {}
+			}
+
+			function applyPreset(presetKey) {
+				const preset = presets[presetKey];
+				if (!preset) return;
+
+				globalEmojiInput.value = preset.globalEmoji || '';
+				globalColorInput.value = preset.globalColor || '';
+
+				for (const event of events) {
+					const style = preset.events[event.key] || {};
+					eventStyles[event.key].emoji = style.emoji || '';
+					eventStyles[event.key].color = style.color || '';
+				}
+
+				renderEventTable();
+				syncEventInputs();
+				buildUrl();
+				updatePreview();
+				saveState();
+			}
+
+			function parseWebhookSource(raw) {
+				const value = (raw || '').trim();
+				if (!value) return null;
+
+				const webhookMatch = value.match(/\\/api\\/webhooks\\/([^\\/\\s]+)\\/([^\\/?\\s]+)/i);
+				if (webhookMatch) {
+					return { id: webhookMatch[1], token: webhookMatch[2] };
+				}
+
+				const schlubMatch = value.match(/\\/(?:v1|v2)\\/([^\\/\\s]+)\\/([^\\/?\\s]+)/i);
+				if (schlubMatch) {
+					return { id: schlubMatch[1], token: schlubMatch[2] };
+				}
+
+				return null;
+			}
+
+			function validColor(value) {
+				return /^#?[0-9a-fA-F]{6}$/.test((value || '').trim());
+			}
+
+			function normalizeColor(value) {
+				const raw = (value || '').trim();
+				if (!raw) return '';
+				if (!validColor(raw)) return '';
+				return raw.startsWith('#') ? raw : '#' + raw;
+			}
+
+			function buildQuery() {
+				const params = new URLSearchParams();
+				const globalEmoji = globalEmojiInput.value.trim();
+				const globalColor = normalizeColor(globalColorInput.value);
+
+				if (globalEmoji) params.set('style_all_emoji', globalEmoji);
+				if (globalColor) params.set('style_all_color', globalColor);
+
+				for (const event of events) {
+					const style = eventStyles[event.key];
+					const emoji = (style.emoji || '').trim();
+					const color = normalizeColor(style.color || '');
+					if (emoji) params.set('style_' + event.key + '_emoji', emoji);
+					if (color) params.set('style_' + event.key + '_color', color);
+				}
+
+				return params.toString();
+			}
+
+			function buildUrl() {
+				const base = window.location.origin;
+				if (!webhookId || !webhookToken) {
+					outputUrl.value = base + '/v2/{webhookId}/{webhookToken}';
+					return;
+				}
+
+				const query = buildQuery();
+				outputUrl.value = base + '/v2/' + webhookId + '/' + webhookToken + (query ? '?' + query : '');
+			}
+
+			function updatePreview() {
+				const eventKey = eventSelect.value;
+				const event = events.find((entry) => entry.key === eventKey) || events[0];
+				const style = eventStyles[event.key];
+
+				const emoji = (style.emoji || '').trim() || globalEmojiInput.value.trim() || event.emoji;
+				const color = normalizeColor(style.color || '') || normalizeColor(globalColorInput.value) || event.color;
+
+				previewCard.style.borderLeftColor = color;
+				previewTitle.textContent = emoji + ' ' + event.title;
+				previewDescription.textContent = event.description;
+
+				previewFields.innerHTML = [
+					'<div class=\"preview-field\"><strong>Status:</strong> \`Open\`</div>',
+					'<div class=\"preview-field\"><strong>Branch:</strong> \`main\`</div>',
+					'<div class=\"preview-field\"><strong>Commit:</strong> [\`abc1234\`](#) \`refactor embed builder\`</div>',
+				].join('');
+			}
+
+			function syncEventInputs() {
+				const style = eventStyles[eventSelect.value];
+				eventEmojiInput.value = style.emoji || '';
+				eventColorInput.value = style.color || '';
+			}
+
+			function renderEventTable() {
+				eventTableBody.innerHTML = events.map((event) => {
+					const emojiValue = (eventStyles[event.key].emoji || '').replace(/\"/g, '&quot;');
+					const colorValue = (eventStyles[event.key].color || '').replace(/\"/g, '&quot;');
+					return '<tr>'
+						+ '<td>' + event.label + '</td>'
+						+ '<td><input data-key=\"' + event.key + '\" data-field=\"emoji\" value=\"' + emojiValue + '\"></td>'
+						+ '<td><input data-key=\"' + event.key + '\" data-field=\"color\" value=\"' + colorValue + '\" placeholder=\"#5865F2\"></td>'
+						+ '</tr>';
+				}).join('');
+			}
+
+			function attachTableListeners() {
+				eventTableBody.addEventListener('input', (event) => {
+					const target = event.target;
+					if (!(target instanceof HTMLInputElement)) return;
+
+					const key = target.dataset.key;
+					const field = target.dataset.field;
+					if (!key || !field || !eventStyles[key]) return;
+
+					presetSelect.value = 'custom';
+					eventStyles[key][field] = target.value;
+					if (key === eventSelect.value) {
+						syncEventInputs();
+					}
+					buildUrl();
+					updatePreview();
+					saveState();
+				});
+			}
+
+			function bootstrapEventSelect() {
+				eventSelect.innerHTML = events.map((event) => '<option value=\"' + event.key + '\">' + event.label + '</option>').join('');
+				eventSelect.addEventListener('change', () => {
+					syncEventInputs();
+					updatePreview();
+					saveState();
+				});
+			}
+
+			function installHandlers() {
+				byId('builderApplyPreset').addEventListener('click', () => {
+					applyPreset(presetSelect.value);
+				});
+
+				byId('builderParseWebhook').addEventListener('click', () => {
+					const parsed = parseWebhookSource(webhookInput.value);
+					if (!parsed) return;
+					webhookId = parsed.id;
+					webhookToken = parsed.token;
+					buildUrl();
+					saveState();
+				});
+
+				byId('builderCopyUrl').addEventListener('click', async () => {
+					try {
+						await navigator.clipboard.writeText(outputUrl.value);
+					} catch (error) {
+						outputUrl.select();
+						document.execCommand('copy');
+					}
+				});
+
+				byId('builderReset').addEventListener('click', () => {
+					globalEmojiInput.value = '';
+					globalColorInput.value = '';
+					presetSelect.value = 'custom';
+					for (const event of events) {
+						eventStyles[event.key].emoji = '';
+						eventStyles[event.key].color = '';
+					}
+					renderEventTable();
+					syncEventInputs();
+					buildUrl();
+					updatePreview();
+					saveState();
+				});
+
+				webhookInput.addEventListener('input', () => {
+					const parsed = parseWebhookSource(webhookInput.value);
+					if (parsed) {
+						webhookId = parsed.id;
+						webhookToken = parsed.token;
+					} else if (!webhookInput.value.trim()) {
+						webhookId = '';
+						webhookToken = '';
+					}
+					buildUrl();
+					saveState();
+				});
+
+				globalEmojiInput.addEventListener('input', () => {
+					buildUrl();
+					updatePreview();
+					saveState();
+				});
+
+				globalColorInput.addEventListener('input', () => {
+					buildUrl();
+					updatePreview();
+					saveState();
+				});
+
+				presetSelect.addEventListener('change', () => {
+					if (presetSelect.value !== 'custom') {
+						applyPreset(presetSelect.value);
+						return;
+					}
+					saveState();
+				});
+
+				eventEmojiInput.addEventListener('input', () => {
+					presetSelect.value = 'custom';
+					eventStyles[eventSelect.value].emoji = eventEmojiInput.value;
+					renderEventTable();
+					buildUrl();
+					updatePreview();
+					saveState();
+				});
+
+				eventColorInput.addEventListener('input', () => {
+					presetSelect.value = 'custom';
+					eventStyles[eventSelect.value].color = eventColorInput.value;
+					renderEventTable();
+					buildUrl();
+					updatePreview();
+					saveState();
+				});
+			}
+
+			function bootstrapPresetSelect() {
+				const keys = Object.keys(presets);
+				presetSelect.innerHTML = keys.map((key) => '<option value=\"' + key + '\">' + presets[key].label + '</option>').join('');
+				presetSelect.value = 'custom';
+			}
+
+			bootstrapEventSelect();
+			bootstrapPresetSelect();
+			loadState();
+			renderEventTable();
+			attachTableListeners();
+			installHandlers();
+			syncEventInputs();
+			buildUrl();
+			updatePreview();
+			saveState();
+		})();
+	</script>
 </body>
 </html>`;
 }
-
