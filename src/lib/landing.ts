@@ -760,6 +760,25 @@ export function getLandingPageHTML(): string {
 			padding: 0.95rem;
 		}
 
+		.preview-meta {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			margin-bottom: 0.5rem;
+			font-size: 0.74rem;
+			color: #9ca3af;
+		}
+
+		.preview-badge {
+			display: inline-flex;
+			align-items: center;
+			background: rgba(88, 101, 242, 0.16);
+			border: 1px solid rgba(88, 101, 242, 0.45);
+			color: #dbe3ff;
+			border-radius: 999px;
+			padding: 0.15rem 0.5rem;
+		}
+
 		.preview-title {
 			font-weight: 700;
 			margin-bottom: 0.5rem;
@@ -771,6 +790,21 @@ export function getLandingPageHTML(): string {
 			font-size: 0.86rem;
 			margin-bottom: 0.75rem;
 			line-height: 1.5;
+		}
+
+		.preview-description a, .preview-field a {
+			color: #8bb4ff;
+			text-decoration: underline;
+		}
+
+		.preview-description code, .preview-field code {
+			background: rgba(255,255,255,0.08);
+			border: 1px solid rgba(255,255,255,0.14);
+			border-radius: 6px;
+			padding: 0.08rem 0.3rem;
+			font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+			font-size: 0.78rem;
+			color: #f5f7ff;
 		}
 
 		.preview-field {
@@ -814,6 +848,12 @@ export function getLandingPageHTML(): string {
 			border-radius: 7px;
 			padding: 0.32rem 0.4rem;
 			font-size: 0.75rem;
+		}
+
+		.builder-url-meta {
+			margin-top: 0.45rem;
+			font-size: 0.75rem;
+			color: var(--text-secondary);
 		}
 
 		/* Scrollbar Styling */
@@ -1133,6 +1173,10 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 						<h3>Live Preview</h3>
 						<p>This shows how selected event styling will look in Discord embeds.</p>
 						<div id="builderPreviewCard" class="preview-card">
+							<div class="preview-meta">
+								<span id="builderPreviewEventBadge" class="preview-badge"></span>
+								<span>Discord Embed Preview</span>
+							</div>
 							<div id="builderPreviewTitle" class="preview-title"></div>
 							<div id="builderPreviewDescription" class="preview-description"></div>
 							<div id="builderPreviewFields"></div>
@@ -1144,6 +1188,7 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 						<div class="builder-field">
 							<label for="builderOutputUrl">Generated v2 URL</label>
 							<textarea id="builderOutputUrl" readonly></textarea>
+							<div id="builderUrlMeta" class="builder-url-meta"></div>
 						</div>
 						<div class="builder-actions" style="margin-top: 0.65rem;">
 							<button id="builderCopyUrl" type="button">Copy URL</button>
@@ -1211,9 +1256,11 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 			const eventEmojiInput = byId('builderEventEmoji');
 			const eventColorInput = byId('builderEventColor');
 			const outputUrl = byId('builderOutputUrl');
+			const outputUrlMeta = byId('builderUrlMeta');
 			const eventTableBody = byId('builderEventTableBody');
 			const statusLabel = byId('builderStatus');
 			const previewCard = byId('builderPreviewCard');
+			const previewEventBadge = byId('builderPreviewEventBadge');
 			const previewTitle = byId('builderPreviewTitle');
 			const previewDescription = byId('builderPreviewDescription');
 			const previewFields = byId('builderPreviewFields');
@@ -1374,6 +1421,25 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 				return raw.startsWith('#') ? raw : '#' + raw;
 			}
 
+			function escapeHtml(text) {
+				return (text || '')
+					.replace(/&/g, '&amp;')
+					.replace(/</g, '&lt;')
+					.replace(/>/g, '&gt;')
+					.replace(/\"/g, '&quot;')
+					.replace(/'/g, '&#39;');
+			}
+
+			function renderInlineMarkdown(input) {
+				let html = escapeHtml(input || '');
+				html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|#)\)/g, '<a href=\"$2\" target=\"_blank\" rel=\"noopener noreferrer\">$1</a>');
+				const tick = String.fromCharCode(96);
+				const codePattern = new RegExp(tick + '([^' + tick + ']+)' + tick, 'g');
+				html = html.replace(codePattern, '<code>$1</code>');
+				html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+				return html;
+			}
+
 			function buildQuery() {
 				const params = new URLSearchParams();
 				const globalEmoji = globalEmojiInput.value.trim();
@@ -1395,13 +1461,21 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 
 			function buildUrl() {
 				const base = window.location.origin;
+				const query = buildQuery();
 				if (!webhookId || !webhookToken) {
 					outputUrl.value = base + '/v2/{webhookId}/{webhookToken}';
+					if (outputUrlMeta) {
+						const count = query ? query.split('&').length : 0;
+						outputUrlMeta.textContent = 'Style params: ' + count + ' • Length: ' + outputUrl.value.length + ' chars';
+					}
 					return;
 				}
 
-				const query = buildQuery();
 				outputUrl.value = base + '/v2/' + webhookId + '/' + webhookToken + (query ? '?' + query : '');
+				if (outputUrlMeta) {
+					const count = query ? query.split('&').length : 0;
+					outputUrlMeta.textContent = 'Style params: ' + count + ' • Length: ' + outputUrl.value.length + ' chars';
+				}
 			}
 
 			function updatePreview() {
@@ -1413,14 +1487,19 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 				const color = normalizeColor(style.color || '') || normalizeColor(globalColorInput.value) || event.color;
 
 				previewCard.style.borderLeftColor = color;
+				if (previewEventBadge) previewEventBadge.textContent = event.label + ' (' + event.key + ')';
 				previewTitle.textContent = emoji + ' ' + event.title;
-				previewDescription.textContent = event.description;
+				previewDescription.innerHTML = renderInlineMarkdown(event.description);
 
-				previewFields.innerHTML = [
-					'<div class=\"preview-field\"><strong>Status:</strong> \`Open\`</div>',
-					'<div class=\"preview-field\"><strong>Branch:</strong> \`main\`</div>',
-					'<div class=\"preview-field\"><strong>Commit:</strong> [\`abc1234\`](#) \`refactor embed builder\`</div>',
-				].join('');
+				const previewFieldData = [
+					{ name: 'Status', value: '\`Open\`' },
+					{ name: 'Branch', value: '\`main\`' },
+					{ name: 'Commit', value: '[\`abc1234\`](#) \`refactor embed builder\`' },
+				];
+
+				previewFields.innerHTML = previewFieldData
+					.map((field) => '<div class=\"preview-field\"><strong>' + escapeHtml(field.name) + ':</strong> ' + renderInlineMarkdown(field.value) + '</div>')
+					.join('');
 			}
 
 			function syncEventInputs() {
