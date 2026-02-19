@@ -640,29 +640,51 @@ export function getLandingPageHTML(): string {
 
 		.builder-layout {
 			display: grid;
-			grid-template-columns: 1.2fr 0.8fr;
-			gap: 1.25rem;
+			grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+			gap: 1rem;
+			align-items: start;
 		}
 
-		.builder-controls {
-			background: var(--bg-primary);
+		.builder-panel {
+			background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
 			border: 1px solid var(--border-color);
-			border-radius: 16px;
-			padding: 1.25rem;
+			border-radius: 18px;
+			padding: 1rem;
+			backdrop-filter: blur(8px);
 		}
 
-		.builder-preview {
-			background: var(--bg-primary);
+		.builder-panel-preview {
+			position: sticky;
+			top: 1rem;
+		}
+
+		.builder-step {
+			background: rgba(10, 10, 15, 0.72);
 			border: 1px solid var(--border-color);
-			border-radius: 16px;
-			padding: 1.25rem;
+			border-radius: 14px;
+			padding: 0.9rem;
+		}
+
+		.builder-step + .builder-step {
+			margin-top: 0.75rem;
+		}
+
+		.builder-step h3 {
+			font-size: 0.95rem;
+			font-weight: 700;
+			margin-bottom: 0.2rem;
+		}
+
+		.builder-step p {
+			font-size: 0.8rem;
+			color: var(--text-secondary);
+			margin-bottom: 0.6rem;
 		}
 
 		.builder-grid {
 			display: grid;
 			grid-template-columns: 1fr 1fr;
-			gap: 0.75rem;
-			margin-bottom: 1rem;
+			gap: 0.65rem;
 		}
 
 		.builder-field {
@@ -672,31 +694,46 @@ export function getLandingPageHTML(): string {
 		}
 
 		.builder-field label {
-			font-size: 0.8rem;
+			font-size: 0.75rem;
 			color: var(--text-secondary);
+			text-transform: uppercase;
+			letter-spacing: 0.03em;
 		}
 
 		.builder-field input, .builder-field select, .builder-field textarea {
 			width: 100%;
-			background: var(--bg-tertiary);
+			background: #151522;
 			border: 1px solid var(--border-color);
 			color: var(--text-primary);
 			border-radius: 10px;
-			padding: 0.65rem 0.75rem;
-			font-size: 0.9rem;
+			padding: 0.6rem 0.7rem;
+			font-size: 0.88rem;
+			transition: border-color 0.2s, box-shadow 0.2s;
+		}
+
+		.builder-field input:focus, .builder-field select:focus, .builder-field textarea:focus {
+			outline: none;
+			border-color: rgba(88, 101, 242, 0.7);
+			box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.2);
 		}
 
 		.builder-field textarea {
-			min-height: 88px;
+			min-height: 110px;
 			resize: vertical;
 			font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+			line-height: 1.45;
+		}
+
+		.builder-status {
+			font-size: 0.78rem;
+			color: var(--accent-cyan);
+			min-height: 1.1rem;
 		}
 
 		.builder-actions {
 			display: flex;
-			gap: 0.75rem;
+			gap: 0.55rem;
 			flex-wrap: wrap;
-			margin-top: 0.75rem;
 		}
 
 		.builder-actions button {
@@ -704,47 +741,50 @@ export function getLandingPageHTML(): string {
 			border: 0;
 			color: #fff;
 			border-radius: 10px;
-			padding: 0.65rem 1rem;
+			padding: 0.56rem 0.9rem;
 			font-weight: 600;
+			font-size: 0.82rem;
 			cursor: pointer;
 		}
 
 		.builder-actions button.secondary {
-			background: var(--bg-tertiary);
+			background: #1b1b28;
 			border: 1px solid var(--border-color);
 		}
 
 		.preview-card {
-			background: #1f2937;
+			background: #151a26;
 			border: 1px solid var(--border-color);
 			border-left: 5px solid #5865f2;
 			border-radius: 12px;
-			padding: 1rem;
+			padding: 0.95rem;
 		}
 
 		.preview-title {
 			font-weight: 700;
 			margin-bottom: 0.5rem;
+			font-size: 0.95rem;
 		}
 
 		.preview-description {
 			color: #d1d5db;
-			font-size: 0.9rem;
+			font-size: 0.86rem;
 			margin-bottom: 0.75rem;
+			line-height: 1.5;
 		}
 
 		.preview-field {
-			font-size: 0.85rem;
+			font-size: 0.82rem;
 			color: #d1d5db;
-			margin-bottom: 0.35rem;
+			margin-bottom: 0.32rem;
 		}
 
 		.builder-table {
-			margin-top: 1rem;
-			max-height: 240px;
+			max-height: 270px;
 			overflow-y: auto;
 			border: 1px solid var(--border-color);
 			border-radius: 12px;
+			background: #131320;
 		}
 
 		.builder-table table {
@@ -753,20 +793,27 @@ export function getLandingPageHTML(): string {
 		}
 
 		.builder-table th, .builder-table td {
-			padding: 0.45rem 0.6rem;
-			font-size: 0.8rem;
+			padding: 0.44rem 0.55rem;
+			font-size: 0.78rem;
 			text-align: left;
 			border-bottom: 1px solid var(--border-color);
 		}
 
+		.builder-table th {
+			position: sticky;
+			top: 0;
+			background: #181826;
+			z-index: 1;
+		}
+
 		.builder-table input {
 			width: 100%;
-			background: var(--bg-tertiary);
+			background: #1b1b2b;
 			border: 1px solid var(--border-color);
 			color: var(--text-primary);
-			border-radius: 8px;
-			padding: 0.35rem 0.45rem;
-			font-size: 0.78rem;
+			border-radius: 7px;
+			padding: 0.32rem 0.4rem;
+			font-size: 0.75rem;
 		}
 
 		/* Scrollbar Styling */
@@ -819,6 +866,14 @@ export function getLandingPageHTML(): string {
 			}
 
 			.builder-layout {
+				grid-template-columns: 1fr;
+			}
+
+			.builder-panel-preview {
+				position: static;
+			}
+
+			.builder-grid {
 				grid-template-columns: 1fr;
 			}
 
@@ -998,68 +1053,102 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 		<div class="section" id="embed-styler">
 			<h2>🎛️ v2 Embed Styler Builder</h2>
 			<p style="color: var(--text-secondary); margin-bottom: 1rem;">
-				Design color and emoji per GitHub event, preview the result, then copy one long v2 URL with all style attributes.
+				Build your final v2 webhook URL in four steps: connect webhook, choose a theme, style events, copy the final URL.
 			</p>
 			<div class="builder-layout">
-				<div class="builder-controls">
-					<div class="builder-grid">
-						<div class="builder-field" style="grid-column: 1 / span 2;">
-							<label for="builderWebhookInput">Discord Webhook URL or Schlub URL</label>
-							<input id="builderWebhookInput" type="text" placeholder="https://discord.com/api/webhooks/{id}/{token}">
+				<div class="builder-panel">
+					<div class="builder-step">
+						<h3>1. Connect Webhook</h3>
+						<p>Paste your Discord webhook URL or an existing Schlub URL.</p>
+						<div class="builder-grid">
+							<div class="builder-field" style="grid-column: 1 / span 2;">
+								<label for="builderWebhookInput">Webhook Source</label>
+								<input id="builderWebhookInput" type="text" placeholder="https://discord.com/api/webhooks/{id}/{token}">
+							</div>
 						</div>
+						<div class="builder-actions" style="margin-top: 0.65rem;">
+							<button id="builderParseWebhook" type="button">Parse Webhook</button>
+						</div>
+						<div id="builderStatus" class="builder-status"></div>
+					</div>
+
+					<div class="builder-step">
+						<h3>2. Choose Global Theme</h3>
+						<p>Apply a preset first, then fine tune global color and emoji.</p>
+						<div class="builder-grid">
+							<div class="builder-field">
+								<label for="builderPresetSelect">Preset</label>
+								<select id="builderPresetSelect"></select>
+							</div>
+							<div class="builder-field" style="display: flex; justify-content: flex-end;">
+								<label style="visibility: hidden;">Apply</label>
+								<div class="builder-actions">
+									<button id="builderApplyPreset" class="secondary" type="button">Apply Preset</button>
+								</div>
+							</div>
+							<div class="builder-field">
+								<label for="builderGlobalEmoji">Global Emoji</label>
+								<input id="builderGlobalEmoji" type="text" placeholder="🚀">
+							</div>
+							<div class="builder-field">
+								<label for="builderGlobalColor">Global Color</label>
+								<input id="builderGlobalColor" type="text" placeholder="#5865F2">
+							</div>
+						</div>
+					</div>
+
+					<div class="builder-step">
+						<h3>3. Style Individual Events</h3>
+						<p>Select an event for focused editing, or use the table to edit many events quickly.</p>
+						<div class="builder-grid">
+							<div class="builder-field">
+								<label for="builderEventSelect">Preview Event</label>
+								<select id="builderEventSelect"></select>
+							</div>
+							<div class="builder-field">
+								<label for="builderEventEmoji">Event Emoji</label>
+								<input id="builderEventEmoji" type="text" placeholder="🔀">
+							</div>
+							<div class="builder-field">
+								<label for="builderEventColor">Event Color</label>
+								<input id="builderEventColor" type="text" placeholder="#8957E5">
+							</div>
+						</div>
+						<div class="builder-table" style="margin-top: 0.65rem;">
+							<table>
+								<thead>
+									<tr>
+										<th>Event</th>
+										<th>Emoji</th>
+										<th>Color</th>
+									</tr>
+								</thead>
+								<tbody id="builderEventTableBody"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="builder-panel builder-panel-preview">
+					<div class="builder-step">
+						<h3>Live Preview</h3>
+						<p>This shows how selected event styling will look in Discord embeds.</p>
+						<div id="builderPreviewCard" class="preview-card">
+							<div id="builderPreviewTitle" class="preview-title"></div>
+							<div id="builderPreviewDescription" class="preview-description"></div>
+							<div id="builderPreviewFields"></div>
+						</div>
+					</div>
+					<div class="builder-step">
+						<h3>4. Copy Final URL</h3>
+						<p>Use this long URL as your GitHub webhook payload URL.</p>
 						<div class="builder-field">
-							<label for="builderGlobalEmoji">Global Emoji (all events)</label>
-							<input id="builderGlobalEmoji" type="text" placeholder="🚀">
-						</div>
-						<div class="builder-field">
-							<label for="builderGlobalColor">Global Color (hex)</label>
-							<input id="builderGlobalColor" type="text" placeholder="#5865F2">
-						</div>
-						<div class="builder-field">
-							<label for="builderPresetSelect">Preset</label>
-							<select id="builderPresetSelect"></select>
-						</div>
-						<div class="builder-field">
-							<label for="builderEventSelect">Preview Event</label>
-							<select id="builderEventSelect"></select>
-						</div>
-						<div class="builder-field">
-							<label for="builderEventEmoji">Event Emoji</label>
-							<input id="builderEventEmoji" type="text" placeholder="🔀">
-						</div>
-						<div class="builder-field">
-							<label for="builderEventColor">Event Color</label>
-							<input id="builderEventColor" type="text" placeholder="#8957E5">
-						</div>
-						<div class="builder-field" style="grid-column: 1 / span 2;">
 							<label for="builderOutputUrl">Generated v2 URL</label>
 							<textarea id="builderOutputUrl" readonly></textarea>
 						</div>
-					</div>
-					<div class="builder-actions">
-						<button id="builderApplyPreset" class="secondary" type="button">Apply Preset</button>
-						<button id="builderParseWebhook" type="button">Parse Webhook</button>
-						<button id="builderCopyUrl" type="button">Copy URL</button>
-						<button id="builderReset" class="secondary" type="button">Reset Styles</button>
-					</div>
-					<div class="builder-table">
-						<table>
-							<thead>
-								<tr>
-									<th>Event</th>
-									<th>Emoji</th>
-									<th>Color</th>
-								</tr>
-							</thead>
-							<tbody id="builderEventTableBody"></tbody>
-						</table>
-					</div>
-				</div>
-				<div class="builder-preview">
-					<div id="builderPreviewCard" class="preview-card">
-						<div id="builderPreviewTitle" class="preview-title"></div>
-						<div id="builderPreviewDescription" class="preview-description"></div>
-						<div id="builderPreviewFields"></div>
+						<div class="builder-actions" style="margin-top: 0.65rem;">
+							<button id="builderCopyUrl" type="button">Copy URL</button>
+							<button id="builderReset" class="secondary" type="button">Reset Styles</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -1123,6 +1212,7 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 			const eventColorInput = byId('builderEventColor');
 			const outputUrl = byId('builderOutputUrl');
 			const eventTableBody = byId('builderEventTableBody');
+			const statusLabel = byId('builderStatus');
 			const previewCard = byId('builderPreviewCard');
 			const previewTitle = byId('builderPreviewTitle');
 			const previewDescription = byId('builderPreviewDescription');
@@ -1174,6 +1264,22 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 
 			let webhookId = '';
 			let webhookToken = '';
+			let statusTimer = null;
+
+			function setStatus(message) {
+				if (!statusLabel) return;
+				statusLabel.textContent = message || '';
+				if (statusTimer) {
+					clearTimeout(statusTimer);
+					statusTimer = null;
+				}
+				if (message) {
+					statusTimer = setTimeout(() => {
+						statusLabel.textContent = '';
+						statusTimer = null;
+					}, 2600);
+				}
+			}
 
 			function saveState() {
 				try {
@@ -1367,23 +1473,30 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 			function installHandlers() {
 				byId('builderApplyPreset').addEventListener('click', () => {
 					applyPreset(presetSelect.value);
+					setStatus('Preset applied.');
 				});
 
 				byId('builderParseWebhook').addEventListener('click', () => {
 					const parsed = parseWebhookSource(webhookInput.value);
-					if (!parsed) return;
+					if (!parsed) {
+						setStatus('Could not parse webhook URL.');
+						return;
+					}
 					webhookId = parsed.id;
 					webhookToken = parsed.token;
 					buildUrl();
 					saveState();
+					setStatus('Webhook parsed successfully.');
 				});
 
 				byId('builderCopyUrl').addEventListener('click', async () => {
 					try {
 						await navigator.clipboard.writeText(outputUrl.value);
+						setStatus('URL copied to clipboard.');
 					} catch (error) {
 						outputUrl.select();
 						document.execCommand('copy');
+						setStatus('URL copied.');
 					}
 				});
 
@@ -1400,6 +1513,7 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 					buildUrl();
 					updatePreview();
 					saveState();
+					setStatus('Styles reset.');
 				});
 
 				webhookInput.addEventListener('input', () => {
