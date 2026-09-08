@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [3.0.0] - 2026-09-08
+
+### Added
+- **`/v3` endpoint — Discord Components V2:**
+  - Every event is rendered as a container (accent color) with sections, separators and action rows
+  - Author avatar as a section thumbnail, relative timestamps via `<t:…:R>`
+  - Backtick styling: emojis as `` `📤` ``, metadata values as `` `main` ``, icon-prefixed field rows
+  - Works for all 19 events by re-rendering the v2 result — no generator changes
+  - `style_*` query parameters and `?thread_id=` behave exactly as in v2
+- `src/lib/componentsv2.ts` with Components V2 payload types (not yet shipped by discord-api-types)
+- Unit and generator tests for the v3 renderer (`npm test`)
+- [V3 Components Guide](docs/v3-components.md)
+
+### Changed
+- Landing page, README and docs now recommend `/v3`
+- `tsconfig.json` excludes `**/*.test.ts` so vitest's DOM types don't clash with workers-types
+
 ## [2.0.0] - 2026-01-02
 
 ### Added

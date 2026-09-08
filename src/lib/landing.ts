@@ -1012,11 +1012,12 @@ export function getLandingPageHTML(): string {
 			</div>
 
 			<div class="code-block">
-https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
+https://schlub.star-dev.xyz/v3/{webhookId}/{webhookToken}
 			</div>
 
 			<p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
-				💡 <strong>Tip:</strong> Use <code>/v2/</code> for enhanced embeds with buttons and emojis. Use <code>/v1/</code> for basic embeds.
+				💡 <strong>Tip:</strong> Use <code>/v3/</code> for Components V2 layouts with containers and backtick styling,
+				<code>/v2/</code> for enhanced embeds with buttons and emojis, <code>/v1/</code> for basic embeds.
 			</p>
 		</div>
 
@@ -1046,13 +1047,14 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 		</div>
 
 		<div class="section">
-			<h2>🆚 v1 vs v2 API</h2>
+			<h2>🆚 v1 vs v2 vs v3 API</h2>
 			<table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
 				<thead>
 					<tr style="text-align: left; border-bottom: 1px solid var(--border-color);">
 						<th style="padding: 0.75rem 0;">Feature</th>
 						<th style="padding: 0.75rem 0;">v1</th>
 						<th style="padding: 0.75rem 0;">v2</th>
+						<th style="padding: 0.75rem 0;">v3</th>
 					</tr>
 				</thead>
 				<tbody style="color: var(--text-secondary);">
@@ -1060,30 +1062,36 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 						<td style="padding: 0.75rem 0;">Basic Embeds</td>
 						<td style="padding: 0.75rem 0;">✅</td>
 						<td style="padding: 0.75rem 0;">✅</td>
+						<td style="padding: 0.75rem 0;">Containers</td>
 					</tr>
 					<tr style="border-bottom: 1px solid var(--border-color);">
 						<td style="padding: 0.75rem 0;">Emoji Indicators</td>
 						<td style="padding: 0.75rem 0;">❌</td>
 						<td style="padding: 0.75rem 0;">✅</td>
+						<td style="padding: 0.75rem 0;">In backticks</td>
 					</tr>
 					<tr style="border-bottom: 1px solid var(--border-color);">
 						<td style="padding: 0.75rem 0;">Interactive Buttons</td>
 						<td style="padding: 0.75rem 0;">❌</td>
+						<td style="padding: 0.75rem 0;">✅</td>
 						<td style="padding: 0.75rem 0;">✅</td>
 					</tr>
 					<tr style="border-bottom: 1px solid var(--border-color);">
 						<td style="padding: 0.75rem 0;">Detailed Fields</td>
 						<td style="padding: 0.75rem 0;">Basic</td>
 						<td style="padding: 0.75rem 0;">Enhanced</td>
+						<td style="padding: 0.75rem 0;">Icon rows</td>
 					</tr>
 					<tr style="border-bottom: 1px solid var(--border-color);">
 						<td style="padding: 0.75rem 0;">Timestamps</td>
 						<td style="padding: 0.75rem 0;">❌</td>
 						<td style="padding: 0.75rem 0;">✅</td>
+						<td style="padding: 0.75rem 0;">Relative</td>
 					</tr>
 					<tr>
 						<td style="padding: 0.75rem 0;">Smart Formatting</td>
 						<td style="padding: 0.75rem 0;">❌</td>
+						<td style="padding: 0.75rem 0;">✅</td>
 						<td style="padding: 0.75rem 0;">✅</td>
 					</tr>
 				</tbody>
@@ -1402,7 +1410,7 @@ https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
 					return { id: webhookMatch[1], token: webhookMatch[2] };
 				}
 
-				const schlubMatch = value.match(/\\/(?:v1|v2)\\/([^\\/\\s]+)\\/([^\\/?\\s]+)/i);
+				const schlubMatch = value.match(/\\/(?:v1|v2|v3)\\/([^\\/\\s]+)\\/([^\\/?\\s]+)/i);
 				if (schlubMatch) {
 					return { id: schlubMatch[1], token: schlubMatch[2] };
 				}

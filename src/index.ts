@@ -1,13 +1,25 @@
 import type { WebhookEventMap, WebhookEventName } from '@octokit/webhooks-types';
-import events, { EmbedGenerator } from './events';
+import events, { EmbedGenerator, GeneratorResult } from './events';
 import { RESTPostAPIWebhookWithTokenJSONBody } from 'discord-api-types/v10';
 import { DISCORD_WEBHOOK_URL } from './lib/discord';
 import { getLandingPageHTML } from './lib/landing';
 import { applyV2Styles, readV2Styles } from './lib/style';
+import { toComponentsV2 } from './lib/componentsv2';
 
 export interface Env {
 	STARS: KVNamespace;
 	WATCHES: KVNamespace;
+}
+
+/** Components V2 messages must not carry content or embeds, so v3 gets its own body shape. */
+function buildWebhookBody(result: GeneratorResult, eventName: string, apiVersion: string): RESTPostAPIWebhookWithTokenJSONBody | undefined {
+	if (apiVersion === 'v3') return toComponentsV2(result, eventName) as unknown as RESTPostAPIWebhookWithTokenJSONBody | undefined;
+
+	return {
+		content: result.content,
+		embeds: result.embeds,
+		components: result.components,
+	};
 }
 
 export default {
@@ -62,8 +74,8 @@ Sitemap: ${requestUrl.origin}/sitemap.xml`,
 			});
 		}
 
-		// support optional version prefix: /v1/:id/:token or /v2/:id/:token
-		if (path.length === 3 && (path[0] === 'v1' || path[0] === 'v2')) {
+		// support optional version prefix: /v1/:id/:token, /v2/:id/:token or /v3/:id/:token
+		if (path.length === 3 && ['v1', 'v2', 'v3'].includes(path[0])) {
 			apiVersion = path[0];
 			webhook = { id: path[1], token: path[2] };
 		} else if (path.length === 2) {
@@ -92,17 +104,17 @@ Sitemap: ${requestUrl.origin}/sitemap.xml`,
 		const generate = events[eventName] as EmbedGenerator<WebhookEventMap[WebhookEventName]> | undefined;
 		if (!generate) return new Response('Event not implemented', { status: 200 });
 
+		// v3 reuses the v2 generators and only changes how the result is rendered
+		const generatorVersion = apiVersion === 'v3' ? 'v2' : apiVersion;
+
 		// Generate the embed (pass apiVersion)
-		const result = await generate(eventPayload, env, hookId, apiVersion);
+		const result = await generate(eventPayload, env, hookId, generatorVersion);
 
 		if (!result) return new Response('No result generated', { status: 200 });
-		const styledResult = applyV2Styles(result, eventName, readV2Styles(requestUrl.searchParams), apiVersion);
+		const styledResult = applyV2Styles(result, eventName, readV2Styles(requestUrl.searchParams), generatorVersion);
 
-		const body: RESTPostAPIWebhookWithTokenJSONBody = {
-			content: styledResult?.content,
-			embeds: styledResult?.embeds,
-			components: styledResult?.components,
-		};
+		const body = buildWebhookBody(styledResult, eventName, apiVersion);
+		if (!body) return new Response('No result generated', { status: 200 });
 
 		const webhookUrl = DISCORD_WEBHOOK_URL(webhook.id, webhook.token, webhook.threadId, true);
 

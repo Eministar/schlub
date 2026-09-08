@@ -153,6 +153,7 @@ const STAR_COOLDOWN = 60 * 15; // 15 minutes in seconds
 |---------|------|-------------|
 | v1 | `/v1/...` | Legacy embeds, minimal formatting |
 | v2 | `/v2/...` | Enhanced embeds with emojis, fields, buttons |
+| v3 | `/v3/...` | Components V2 containers with backtick-styled metadata |
 | (none) | `/...` | Defaults to v1 for backwards compatibility |
 
 ### Version Selection
@@ -162,6 +163,7 @@ The API version is determined by the URL path:
 ```
 /v1/{webhookId}/{webhookToken}  → Legacy mode
 /v2/{webhookId}/{webhookToken}  → Enhanced mode
+/v3/{webhookId}/{webhookToken}  → Components V2 mode
 /{webhookId}/{webhookToken}     → Legacy mode (default)
 ```
 

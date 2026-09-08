@@ -14,7 +14,16 @@ const CODE_WRAP_FIELD_NAMES = new Set([
 	'workflow',
 	'review',
 	'task',
+	'commits',
+	'files changed',
+	'duration',
+	'conclusion',
+	'environment',
+	'version',
 ]);
+
+/** Longest value we are willing to render as inline code. */
+const CODE_VALUE_LIMIT = 60;
 
 interface EventStyle {
 	emoji?: string;
@@ -27,6 +36,31 @@ function isMarkdownLink(value: string): boolean {
 
 function stripLeadingEmoji(text: string): string {
 	return text.replace(/^[\p{Extended_Pictographic}\p{Emoji_Presentation}\uFE0F\u200D\s]+/u, '').trimStart();
+}
+
+const LEADING_EMOJI_PATTERN = /^([\p{Extended_Pictographic}\p{Emoji_Presentation}\uFE0F\u200D]+)\s*/u;
+
+/** Splits a title like "📤 Pushed 3 commits" so v3 can render the emoji as inline code. */
+export function splitLeadingEmoji(text: string): { emoji?: string; rest: string } {
+	const match = LEADING_EMOJI_PATTERN.exec(text);
+	if (!match) return { rest: text.trim() };
+
+	return { emoji: match[1], rest: text.slice(match[0].length).trim() };
+}
+
+/**
+ * Wraps a field value in backticks when it reads as a token rather than prose:
+ * single words always, longer values only for known metadata fields.
+ */
+export function codeValue(fieldName: string, value: string): string {
+	const trimmed = value.trim();
+	if (!trimmed || trimmed.includes('`') || isMarkdownLink(trimmed) || trimmed.includes('\n')) return trimmed;
+	if (trimmed.length > CODE_VALUE_LIMIT) return trimmed;
+
+	const isToken = !/\s/.test(trimmed);
+	if (!isToken && !CODE_WRAP_FIELD_NAMES.has(fieldName.trim().toLowerCase())) return trimmed;
+
+	return `\`${trimmed}\``;
 }
 
 function normalizeEmoji(value: string | null): string | undefined {

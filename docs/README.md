@@ -55,7 +55,8 @@ https://discord.com/api/webhooks/{webhookId}/{webhookToken}
 1. Go to your GitHub repository → **Settings** → **Webhooks**
 2. Click **Add webhook**
 3. Set the Payload URL to one of:
-   - **v2 (recommended):** `https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}`
+   - **v3 (recommended):** `https://schlub.star-dev.xyz/v3/{webhookId}/{webhookToken}`
+   - **v2 (embeds):** `https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}`
    - **v1 (legacy):** `https://schlub.star-dev.xyz/v1/{webhookId}/{webhookToken}`
 4. Set Content type to `application/json`
 5. Select the events you want to receive
@@ -70,13 +71,22 @@ https://discord.com/api/webhooks/{webhookId}/{webhookToken}
 - Simple formatting
 - Backwards compatible with original Schlub
 
-### `/v2` — Enhanced Mode (Recommended)
+### `/v2` — Enhanced Mode
 - Beautiful rich embeds with emojis
 - Detailed metadata fields
 - Interactive "Open on GitHub" buttons
 - Color-coded by event type and status
 - Timestamps on all embeds
 - Better truncation and formatting
+
+### `/v3` — Components V2 Mode (Recommended)
+- Discord **Components V2** layout: container, sections, separators — no embeds
+- Accent-colored container instead of the embed sidebar
+- Emojis rendered as inline code (`` `📤` ``), metadata values as `` `main` ``
+- Author avatar as a section thumbnail, relative timestamps (`<t:…:R>`)
+- Same events, same buttons and the same `style_*` query parameters as v2
+
+See [V3 Components Guide](v3-components.md) for the layout and examples.
 
 ---
 
