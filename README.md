@@ -25,7 +25,7 @@ https://discord.com/api/webhooks/{webhookId}/{webhookToken}
 ### 2. Add GitHub Webhook
 
 In your repository settings, add a webhook with:
-- **Payload URL:** `https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}`
+- **Payload URL:** `https://schlub.eministar.dev/v2/{webhookId}/{webhookToken}`
 - **Content type:** `application/json`
 - **Events:** Select the events you want
 
@@ -59,13 +59,13 @@ Your GitHub events will now appear as beautiful embeds in Discord.
 
 ```bash
 # v2 (recommended) — Enhanced embeds
-https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}
+https://schlub.eministar.dev/v2/{webhookId}/{webhookToken}
 
 # v1 (legacy) — Simple embeds
-https://schlub.star-dev.xyz/v1/{webhookId}/{webhookToken}
+https://schlub.eministar.dev/v1/{webhookId}/{webhookToken}
 
 # With thread support
-https://schlub.star-dev.xyz/v2/{webhookId}/{webhookToken}?thread_id={threadId}
+https://schlub.eministar.dev/v2/{webhookId}/{webhookToken}?thread_id={threadId}
 ```
 
 ---
@@ -103,7 +103,7 @@ npm run deploy
 - ✅ 15+ event types supported
 - ✅ Enhanced v2 embeds with emojis, fields, buttons
 - ✅ KV namespaces for rate limiting
-- ✅ Deployed: `https://schlub.star-dev.xyz`
+- ✅ Deployed: `https://schlub.eministar.dev`
 - ✅ Comprehensive documentation
 
 ---
