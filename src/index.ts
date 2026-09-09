@@ -116,7 +116,7 @@ Sitemap: ${requestUrl.origin}/sitemap.xml`,
 		const body = buildWebhookBody(styledResult, eventName, apiVersion);
 		if (!body) return new Response('No result generated', { status: 200 });
 
-		const webhookUrl = DISCORD_WEBHOOK_URL(webhook.id, webhook.token, webhook.threadId, true);
+		const webhookUrl = DISCORD_WEBHOOK_URL(webhook.id, webhook.token, webhook.threadId, true, apiVersion === 'v3');
 
 		const res = await fetch(webhookUrl, {
 			method: 'POST',
